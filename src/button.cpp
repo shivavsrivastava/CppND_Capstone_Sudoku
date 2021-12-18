@@ -5,7 +5,7 @@ Button::Button()
 	  _texture(nullptr),
 	  _buttonRect({ 0, 0, 0, 0 }),
 	  _textureRect({0, 0, 0, 0}),
-	  _mouseOutC({ 219, 184, 215, SDL_ALPHA_OPAQUE }), // light purple
+	  _mouseOutC({ 81, 78, 78, SDL_ALPHA_OPAQUE }), // gray
 	  _mouseOverC({ 95, 89, 191, SDL_ALPHA_OPAQUE }),//blue
 	  _mouseDownC({ 91, 191, 116, SDL_ALPHA_OPAQUE }), // green
 	  _mouseUpC({ 95, 89, 191, SDL_ALPHA_OPAQUE }), // blue
@@ -16,7 +16,7 @@ Button::Button(int id)
 	  _texture(nullptr),
 	  _buttonRect({ 0, 0, 0, 0 }),
 	  _textureRect({0, 0, 0, 0}),
-	  _mouseOutC({ 219, 184, 215, SDL_ALPHA_OPAQUE }), // light purple
+	  _mouseOutC({ 81, 78, 78, SDL_ALPHA_OPAQUE }), // gray
 	  _mouseOverC({ 95, 89, 191, SDL_ALPHA_OPAQUE }),//blue
 	  _mouseDownC({ 91, 191, 116, SDL_ALPHA_OPAQUE }), // green
 	  _mouseUpC({ 95, 89, 191, SDL_ALPHA_OPAQUE }), // blue

@@ -47,20 +47,19 @@ void Cell::SetEditable(const bool editable)
 	_editable = editable;
 	if (_editable)
 	{
-		_mouseOutC = { 219, 184, 215, SDL_ALPHA_OPAQUE }; // light purple
+		_mouseOutC = { 102, 103, 171, SDL_ALPHA_OPAQUE }; // pantone very peri color of 2022
 		_mouseOverC = { 95, 89, 191, SDL_ALPHA_OPAQUE }; // blue
 		_mouseOverC = { 91, 191, 116, SDL_ALPHA_OPAQUE }; // green
 		_mouseUpC = { 95, 89, 191, SDL_ALPHA_OPAQUE }; // blue
 	}
 	else
 	{
-		_mouseOutC = { 159, 101, 152, SDL_ALPHA_OPAQUE }; // purple
-		_mouseOverC = { 159, 101, 152, SDL_ALPHA_OPAQUE }; // purple
-		_mouseOverC = { 159, 101, 152, SDL_ALPHA_OPAQUE }; // purple
-		_mouseUpC = { 159, 101, 152, SDL_ALPHA_OPAQUE }; // purple
+		_mouseOutC = { 82, 83, 141, SDL_ALPHA_OPAQUE }; // dark peri
+		_mouseOverC = { 82, 83, 141, SDL_ALPHA_OPAQUE }; // dark peri
+		_mouseOverC = { 82, 83, 141, SDL_ALPHA_OPAQUE }; // dark peri
+		_mouseUpC = { 82, 83, 141, SDL_ALPHA_OPAQUE }; // dark peri
 	}
 }
-
 bool Cell::IsEditable()
 {
 	return _editable;

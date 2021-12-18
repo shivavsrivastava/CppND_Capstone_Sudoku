@@ -17,7 +17,7 @@ int main() {
   constexpr std::size_t kScreenHeight{880};
   constexpr std::size_t kGridWidth{720};
   constexpr std::size_t kGridHeight{720};
-  constexpr std::size_t kFontSize{28};
+  constexpr std::size_t kFontSize{32};
   constexpr std::size_t kSudokuSize{81};
   constexpr std::size_t kButtons{5};
 

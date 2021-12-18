@@ -94,8 +94,8 @@ void Renderer::InitRender() {
 
 void Renderer::Render() {
 	// Clear screen prepareScene
-	//SDL_SetRenderDrawColor(_sdlRenderer, 159, 101, 152, SDL_ALPHA_OPAQUE);
-	SDL_SetRenderDrawColor(_sdlRenderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
+	// Pixel color white (cream)
+	SDL_SetRenderDrawColor(_sdlRenderer, 200, 200, 200, SDL_ALPHA_OPAQUE);
 
 	// Clear screen
 	SDL_RenderClear(_sdlRenderer);
@@ -139,7 +139,7 @@ void Renderer::LoadTexture(SDL_Texture*& texture, std::string text, SDL_Color& f
 
 void Renderer::PreloadTextures() {
 	// Choose color of text
-	SDL_Color textColor = { 0, 0, 0, SDL_ALPHA_OPAQUE }; // black
+	SDL_Color textColor = { 200, 200, 200, SDL_ALPHA_OPAQUE }; // white
 
 	// Load texture for empty space
 	LoadTexture(_textureCache[0], " ", textColor);

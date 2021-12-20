@@ -16,29 +16,31 @@ GameEngine::~GameEngine() {
 }
 
 void GameEngine::Run() {
-  LoadBoard(1);
-  Solve();
-  LoadSolvedBoard();
-  for(auto it:_grid) {
-    if(it->IsEditable()) {
-      it->SetSelected(true);
-      break;
-    }
-  }
+  bool init = false;
   while(!ReadyToStop()) {
-    //std::cout << "GameEngine::Run - entered loop, will get message from MessageQ \n";
-    if(_boardPtr->GetCheckButton()) {
-      // logic to check 
+    if(!init) {
+      // Run the initial load board logic
+      LoadBoard(9); // start with file number 1
+      Solve();
+      LoadSolvedBoard();
     }
-    if(_boardPtr->GetGenNewButton()) {
-      // logic to generate new sudoku and set the level button too
+    else { // init = true
+      //std::cout << "GameEngine::Run - entered loop, will get message from MessageQ \n";
+      if(_boardPtr->GetCheckButton()) {
+        // logic to check 
+      }
+      if(_boardPtr->GetGenNewButton()) {
+        // logic to generate new sudoku and set the level button too
+      }
+      if(_boardPtr->GetSolButton()) {
+        // Renderer has to display solution
+      }
+      if(_boardPtr->GetValidCell()) {
+        int cellIndex = _boardPtr->GetCurrentCellNum();
+      }
     }
-    if(_boardPtr->GetSolButton()) {
-      // Renderer has to display solution
-    }
-    if(_boardPtr->GetValidCell()) {
-      int cellIndex = _boardPtr->GetCurrentCellNum();
-    }
+    // Set init to true, so that first logic is not visited again
+    init = true; 
     // Free CPU
     std::this_thread::sleep_for(std::chrono::milliseconds(100));
   }

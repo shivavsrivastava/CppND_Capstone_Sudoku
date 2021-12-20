@@ -18,8 +18,6 @@ void Game::Play(Controller& controller,
   Uint32 frameEnd;
   Uint32 frameDuration;
   int frameCount = 0;
-  bool running = true;
-  bool init = true;
   SDL_Event e;
 
   // Start controller thread
@@ -35,15 +33,9 @@ void Game::Play(Controller& controller,
   SDL_StartTextInput();
   
   // main game loop
-  while (running) {
+  while (!controller.ReadyToStop()) {
     frameStart = SDL_GetTicks();
-
-    // Check if an exit/interrupt signal is received
-    //controller.ReadyToPoll();
-    SDL_PollEvent(&e);
-    if (e.type == SDL_QUIT || (e.type == SDL_WINDOWEVENT && e.window.event == SDL_WINDOWEVENT_CLOSE)) 
-      break;
-
+  
     renderer.Render();
 
     frameEnd = SDL_GetTicks();

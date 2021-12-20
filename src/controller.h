@@ -22,9 +22,9 @@ public:
                 std::shared_ptr<SudokuBoard>& boardPtr);
   
   void Stop();
+  bool ReadyToStop();
 
 private:
-  bool ReadyToStop();
 
   bool _stop;
   std::mutex _stop_mtx;

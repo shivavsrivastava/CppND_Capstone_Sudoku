@@ -23,16 +23,16 @@ void Controller::HandleInput() {
   while (!ReadyToStop()) {
     while(SDL_PollEvent(&e) != 0) {
       //std::cout << "Controller::HandleInput Event seen! \n";
-      if (e.type == SDL_QUIT) {
+      if (e.type == SDL_QUIT || (e.type == SDL_WINDOWEVENT && e.window.event == SDL_WINDOWEVENT_CLOSE)) {
         std::lock_guard<std::mutex> lck(_stop_mtx);
         _stop = true;
       }
       else {
         for (auto it: _grid) {
           if(it->IsEditable()) {
+            it->SetSelected(false);
             if(it->GetMouseEvent(&e) == ButtonState::BUTTON_MOUSE_DOWN) {
               std::cout << "Controller::HandleInput Button clicked in grid \n";
-              it->SetSelected(false);
               _currCellNumber = it->GetID();
               it->SetSelected(true);
             }

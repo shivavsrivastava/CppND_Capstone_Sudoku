@@ -12,43 +12,43 @@ public:
 
     }
     // getter and setter functions
-    void SetCheckButton(bool setting) {
+    void setCheckButton(bool setting) {
         std::lock_guard<std::mutex> lck(_mtx);
         _chkButton = setting;};
 
-    bool GetCheckButton() { 
+    bool getCheckButton() { 
         std::lock_guard<std::mutex> lck(_mtx);
         return _chkButton;};
 
-    void SetGenNewButton(bool setting) {
+    void setGenNewButton(bool setting) {
         std::lock_guard<std::mutex> lck(_mtx);
         _genNewButton=setting; };
 
-    bool GetGenNewButton() { 
+    bool getGenNewButton() { 
         std::lock_guard<std::mutex> lck(_mtx);
         return _genNewButton;};
 
-    void SetSolButton(bool setting) {
+    void setSolButton(bool setting) {
         std::lock_guard<std::mutex> lck(_mtx);
         _solButton=setting; };
 
-    bool GetSolButton() { 
+    bool getSolButton() { 
         std::lock_guard<std::mutex> lck(_mtx);
         return _solButton; };
 
-    void SetCurrentCellNum(int num) { 
+    void setCurrentCellNum(int num) { 
         std::lock_guard<std::mutex> lck(_mtx);
         _currentCellNum = num;};
 
-    int  GetCurrentCellNum() {
+    int  getCurrentCellNum() {
         std::lock_guard<std::mutex> lck(_mtx);
         return _currentCellNum;}
 
-    void SetValidCell(bool setting) { 
+    void setValidCell(bool setting) { 
         std::lock_guard<std::mutex> lck(_mtx);
         _currentCellValid = setting;};
 
-    bool  GetValidCell() {
+    bool  getValidCell() {
         std::lock_guard<std::mutex> lck(_mtx);
         return _currentCellValid;}
 

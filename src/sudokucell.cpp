@@ -13,7 +13,7 @@ Cell::Cell(int id)
 	_id = id;
 }
 
-void Cell::SetNumber(const int number)
+void Cell::setNumber(const int number)
 {
 	if (number <= 9 && number>= 1)
 	{
@@ -25,12 +25,12 @@ void Cell::SetNumber(const int number)
 	}
 }
 
-int Cell::GetNumber()
+int Cell::getNumber()
 {
 	return _number;
 }
 
-void Cell::SetSolution(const int solution)
+void Cell::setSolution(const int solution)
 {
 	if (solution <= 9 && solution>= 1)
 	{
@@ -42,7 +42,7 @@ void Cell::SetSolution(const int solution)
 	}
 }
 
-void Cell::SetEditable(const bool editable)
+void Cell::setEditable(const bool editable)
 {
 	_editable = editable;
 	if (_editable)
@@ -60,12 +60,12 @@ void Cell::SetEditable(const bool editable)
 		_mouseUpC = { 82, 83, 141, SDL_ALPHA_OPAQUE }; // dark peri
 	}
 }
-bool Cell::IsEditable()
+bool Cell::isEditable()
 {
 	return _editable;
 }
 
-void Cell::HandleKeyboardEvent(const SDL_Event* event)
+void Cell::handleKeyboardEvent(const SDL_Event* event)
 {
 	// Handle backspace
 	if (event->key.keysym.sym == SDLK_BACKSPACE && _number != 0)
@@ -79,12 +79,12 @@ void Cell::HandleKeyboardEvent(const SDL_Event* event)
 		// Check if number lies between 1 to 9, as those are valid sudoku numbers
 		std::cout << "Cell::HandleKeyboardEvent -- text is" << event->text.text << "\n";
 		_number = atoi(event->text.text);
-		this->SetNumber(_number);
+		this->setNumber(_number);
 	}
 }
 
 
-bool Cell::IsCorrect()
+bool Cell::isCorrect()
 {
 	return (_number == _solution);
 }

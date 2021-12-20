@@ -6,7 +6,7 @@ SudokuSolver::SudokuSolver() {
 }
 
 
-bool SudokuSolver::SetBoard(board_t& board) {
+bool SudokuSolver::setBoard(board_t& board) {
   // Copy over board
   _board = board;
 
@@ -23,22 +23,22 @@ bool SudokuSolver::SetBoard(board_t& board) {
     for (int c = 0; c < _N2; c++) {
       int val = board[r][c];
       _board[r][c] = val;
-      if (val != 0) MarkCell(r,c,val,false);
+      if (val != 0) markCell(r,c,val,false);
     }
   }
 
   return true;
 }
 
-board_t SudokuSolver::GetBoard() {
+board_t SudokuSolver::getBoard() {
   return _board;
 }
 
-bool SudokuSolver::Solve() {
+bool SudokuSolver::solve() {
   std::vector<int> searchPath; // True if searchable (max 81)
   int r,c;
   for (int i=0; i< _N2*_N2; i++) {
-    Deserialize(i,r,c);
+    deserialize(i,r,c);
     if (_board[r][c] == 0) {
       searchPath.push_back(i);
     }
@@ -48,14 +48,14 @@ bool SudokuSolver::Solve() {
   int iterCount = 0;
   while(searchPathIt != searchPath.end()) {
     iterCount++;
-    Deserialize(*searchPathIt,r,c);
+    deserialize(*searchPathIt,r,c);
 
     //#ifndef DEBUG1
     //std::cout << "Checking cell index " << *searchPathIt << " (" << r << ", " << c << ")\n";
     //#endif
 
     int curVal = _board[r][c];
-    int nextVal = GetFirstAvailableValFrom(r,c,curVal+1);
+    int nextVal = getFirstAvailableValFrom(r,c,curVal+1);
 
     //#ifndef DEBUG1
     //std::cout << "Next value: " << nextVal << "\n";
@@ -73,11 +73,11 @@ bool SudokuSolver::Solve() {
       searchPathIt--;
 
       // Collect row col indicies for previous cell
-      Deserialize(*searchPathIt,r,c);
+      deserialize(*searchPathIt,r,c);
 
       // Refree previous val
       int val = _board[r][c];
-      MarkCell(r,c,val,true); 
+      markCell(r,c,val,true); 
 
       //#ifndef DEBUG1
       //// std::cout << "Backtracking \n";
@@ -94,7 +94,7 @@ bool SudokuSolver::Solve() {
       _board[r][c] = nextVal;
 
       // Mark free arrays with this cell candidate
-      MarkCell(r,c,nextVal,false);
+      markCell(r,c,nextVal,false);
 
       // Move to next cell
       searchPathIt++;
@@ -108,33 +108,33 @@ bool SudokuSolver::Solve() {
   return true;
 }
 
-void SudokuSolver::MarkCell(int r, int c, int val, bool free) {
+void SudokuSolver::markCell(int r, int c, int val, bool free) {
   _rowFree[r][val-1] = free;
   _colFree[c][val-1] = free;
-  _blockFree[GetBlockIdx(r,c)][val-1] = free;
+  _blockFree[getBlockIdx(r,c)][val-1] = free;
 }
-int SudokuSolver::GetBlockIdx(int r, int c) {
+int SudokuSolver::getBlockIdx(int r, int c) {
   int blockR = r / _N1 ;
   int blockC = c / _N1 ;
   return blockR*_N1 + blockC;
 }
 
-int SudokuSolver::GetFirstAvailableValFrom(int r, int c, int valStart = 1) {
+int SudokuSolver::getFirstAvailableValFrom(int r, int c, int valStart = 1) {
   for (size_t val = valStart; val <= _N2; val++) {
     if (_rowFree[r][val-1] &&
         _colFree[c][val-1] &&
-        _blockFree[GetBlockIdx(r,c)][val-1]) {
+        _blockFree[getBlockIdx(r,c)][val-1]) {
       return val;
     }
   }
   return 0;
 }
 
-int SudokuSolver::Serialize(int r, int c) {
+int SudokuSolver::serialize(int r, int c) {
   return _N2 * r + c;
 }
 
-void SudokuSolver::Deserialize(int idx, int &r, int &c) {
+void SudokuSolver::deserialize(int idx, int &r, int &c) {
   r = idx/_N2;
   c = idx % _N2;
 }

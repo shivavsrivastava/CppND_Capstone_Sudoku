@@ -38,19 +38,19 @@ int main() {
 
   // Create other objects
   Controller controller;
-  controller.SetBoard(grid, buttons, boardPtr);
+  controller.setBoard(grid, buttons, boardPtr);
 
   Renderer renderer(kScreenWidth, kScreenHeight, kGridWidth, kGridHeight, kFontSize);
-  renderer.SetBoard(grid, buttons, boardPtr);
+  renderer.setBoard(grid, buttons, boardPtr);
 
   Updater updater;
-  updater.SetBoard(grid, buttons, boardPtr);
+  updater.setBoard(grid, buttons, boardPtr);
 
   Game game(kGridWidth, kGridHeight);
 
   // Start the game!
   std::cout << " All instances of Game, controller and Renderer initialized!\n";
-  game.Play(controller, renderer, updater, kMsPerFrame);
+  game.play(controller, renderer, updater, kMsPerFrame);
   std::cout << "Game has terminated successfully!\n";
   grid.clear();
   buttons.clear();

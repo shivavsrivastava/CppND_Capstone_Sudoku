@@ -20,25 +20,25 @@ class Renderer {
            const std::size_t fontSize);
   ~Renderer();
 
-  void Render();
-  void UpdateWindowTitle(int fps);
-  void SetBoard(std::vector<std::shared_ptr<Cell>>& grid, 
+  void render();
+  void updateWindowTitle(int fps);
+  void setBoard(std::vector<std::shared_ptr<Cell>>& grid, 
               std::vector<std::shared_ptr<Button>>& buttons,
                 std::shared_ptr<SudokuBoard>& boardPtr)
         {_grid = grid; _buttons = buttons; _boardPtr = boardPtr;};
-  void InitRender();
+  void initRender();
 
  private:
 
-  void LoadTexture(SDL_Texture*& texture, std::string text, SDL_Color& fontColor);
+  void loadTexture(SDL_Texture*& texture, std::string text, SDL_Color& fontColor);
 
-  void PreloadTextures();
+  void preloadTextures();
 
-  void CreateInterfaceLayout();
+  void createInterfaceLayout();
 
-  void FreeTextures();
+  void freeTextures();
 
-  void RenderFrame();
+  void renderFrame();
 
 
   SDL_Window*   _sdlWindow;

@@ -16,21 +16,21 @@ public:
 	Cell(int id);
 
 	// Set and get number
-	void SetNumber(const int number);
-	int GetNumber();
+	void setNumber(const int number);
+	int getNumber();
 
 	// Set solution
-	void SetSolution(const int solution);
+	void setSolution(const int solution);
 
 	// Set and get editability (setting editability changes color mapping for button)
-	void SetEditable(const bool editable);
-	bool IsEditable();
+	void setEditable(const bool editable);
+	bool isEditable();
 
 	// Handle events
-	void HandleKeyboardEvent(const SDL_Event* event);
+	void handleKeyboardEvent(const SDL_Event* event);
 
 	// Compare number with solution
-	bool IsCorrect();
+	bool isCorrect();
 private:
 	// Define editiability (can type number in cell)
 	bool _editable;

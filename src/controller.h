@@ -16,13 +16,13 @@ public:
   Controller();
   ~Controller();
 
-  void HandleInput();
-  void SetBoard(std::vector<std::shared_ptr<Cell>>& grid, 
+  void handleInput();
+  void setBoard(std::vector<std::shared_ptr<Cell>>& grid, 
                 std::vector<std::shared_ptr<Button>>& buttons,
                 std::shared_ptr<SudokuBoard>& boardPtr);
   
-  void Stop();
-  bool ReadyToStop();
+  void stop();
+  bool readyToStop();
 
 private:
 

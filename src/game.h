@@ -17,13 +17,13 @@
 
 class Controller; // forward declaration
 class Renderer; // forward declaration
-class GameEngine;
+class Updater;
 
 
 class Game {
  public:
   Game(std::size_t gridW, std::size_t gridH);
-  void Play(Controller& controller, 
+  void play(Controller& controller, 
             Renderer& renderer,
             Updater& updater,
             std::size_t targetFrameDuration);

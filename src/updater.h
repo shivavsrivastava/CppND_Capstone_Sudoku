@@ -18,18 +18,18 @@ class Updater {
  public:
   Updater();
   ~Updater();
-  bool LoadBoard(int fileNum);
-  void Run();
-  void SetBoard(std::vector<std::shared_ptr<Cell>>& grid, 
+  bool loadBoard(int fileNum);
+  void run();
+  void setBoard(std::vector<std::shared_ptr<Cell>>& grid, 
                 std::vector<std::shared_ptr<Button>>& buttons, 
                 std::shared_ptr<SudokuBoard>& boardPtr);
     
-  void Stop();
+  void stop();
 
  private:
-  bool Solve();
-  bool ReadyToStop();
-  void LoadSolvedBoard();
+  bool solve();
+  bool readyToStop();
+  void loadSolvedBoard();
 
   bool _stop;
   std::mutex _stop_mtx;

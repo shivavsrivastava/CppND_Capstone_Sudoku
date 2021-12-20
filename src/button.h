@@ -23,36 +23,36 @@ public:
 	
 
 	// getter and setter
-	int GetID() {
+	int getId() {
 		return _id;}
-	void SetID(int id) {
+	void setId(int id) {
 		_id = id;}
 
 	// Set Texture
-	void SetTexture(SDL_Texture* texture);
+	void setTexture(SDL_Texture* texture);
 
 	// Set button and texture SDL_Rect
-	void SetButtonRect(const SDL_Rect& rect);
-	void SetTextureRect(const SDL_Rect& rect);
+	void setButtonRect(const SDL_Rect& rect);
+	void setTextureRect(const SDL_Rect& rect);
 
 	// Center texture onto button
-	void CenterTextureRect();
+	void centerTextureRect();
 
 	// Set selected
-	void SetSelected(const bool selected);
+	void setSelected(const bool selected);
 
 	// Check if mouse is inside button
-	bool IsMouseInside(const int x, const int y);
+	bool isMouseInside(const int x, const int y);
 	
 	// Get mouse event
-	ButtonState GetMouseEvent(const SDL_Event* event);
+	ButtonState getMouseEvent(const SDL_Event* event);
 
 	// Set mouse down color
-	void SetMouseDownColor(const SDL_Color& color);
+	void setMouseDownColor(const SDL_Color& color);
 
 	// Render button and texture
-	void RenderButton(SDL_Renderer* renderer);
-	void RenderTexture(SDL_Renderer* renderer);
+	void renderButton(SDL_Renderer* renderer);
+	void renderTexture(SDL_Renderer* renderer);
 
 private:
 	// Current button state

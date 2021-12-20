@@ -5,22 +5,22 @@
 Controller::Controller() : _stop(false), _currCellNumber(0) {}
 
 Controller::~Controller() {
-  Stop();
+  stop();
 }
 
-void Controller::Stop() {
+void Controller::stop() {
   std::lock_guard<std::mutex> lck(_stop_mtx);
   _stop = true;
 }
 
-bool Controller::ReadyToStop() {
+bool Controller::readyToStop() {
   std::lock_guard<std::mutex> lck(_stop_mtx);
   return _stop;
 }
 
-void Controller::HandleInput() {
+void Controller::handleInput() {
   SDL_Event e;
-  while (!ReadyToStop()) {
+  while (!readyToStop()) {
     while(SDL_PollEvent(&e) != 0) {
       //std::cout << "Controller::HandleInput Event seen! \n";
       if (e.type == SDL_QUIT || (e.type == SDL_WINDOWEVENT && e.window.event == SDL_WINDOWEVENT_CLOSE)) {
@@ -29,39 +29,39 @@ void Controller::HandleInput() {
       }
       else {
         for (auto it: _grid) {
-          if(it->IsEditable()) {
-            it->SetSelected(false);
-            if(it->GetMouseEvent(&e) == ButtonState::BUTTON_MOUSE_DOWN) {
+          if(it->isEditable()) {
+            it->setSelected(false);
+            if(it->getMouseEvent(&e) == ButtonState::BUTTON_MOUSE_DOWN) {
               std::cout << "Controller::HandleInput Button clicked in grid \n";
-              _currCellNumber = it->GetID();
-              it->SetSelected(true);
+              _currCellNumber = it->getId();
+              it->setSelected(true);
             }
           }
         }
         // first 2 buttons are level, stopwatch (so not editable)
         // next 3 are check, solution, new
         for (auto it: _buttons) {
-          if(it->GetMouseEvent(&e) == ButtonState::BUTTON_MOUSE_DOWN) {
-            switch (it->GetID()) {
+          if(it->getMouseEvent(&e) == ButtonState::BUTTON_MOUSE_DOWN) {
+            switch (it->getId()) {
               case (2):
-                _boardPtr->SetCheckButton(true);
+                _boardPtr->setCheckButton(true);
                 std::cout << "Controller::HandleInput CheckButton clicked \n";
                 break;
               case(3):
-                _boardPtr->SetGenNewButton(true);
+                _boardPtr->setGenNewButton(true);
                 std::cout << "Controller::HandleInput GenNew clicked \n";
                 break;
               case (4):
-                _boardPtr->SetSolButton(true);
+                _boardPtr->setSolButton(true);
                 std::cout << "Controller::HandleInput SolutionButton clicked \n";
                 break;
             }
           }
         }
-        _grid.at(_currCellNumber)->HandleKeyboardEvent(&e);
-        _grid.at(_currCellNumber)->SetSelected(false);
-        _boardPtr->SetValidCell(true);
-        _boardPtr->SetCurrentCellNum(_currCellNumber);
+        _grid.at(_currCellNumber)->handleKeyboardEvent(&e);
+        _grid.at(_currCellNumber)->setSelected(false);
+        _boardPtr->setValidCell(true);
+        _boardPtr->setCurrentCellNum(_currCellNumber);
       }
 
       // Free CPU
@@ -71,7 +71,7 @@ void Controller::HandleInput() {
   std::cout << "Exit thread: Controller::HandleInput\n";
 }
 
-void Controller::SetBoard(std::vector<std::shared_ptr<Cell>>& grid, 
+void Controller::setBoard(std::vector<std::shared_ptr<Cell>>& grid, 
                 std::vector<std::shared_ptr<Button>>& buttons,
                 std::shared_ptr<SudokuBoard>& boardPtr){
                   _grid = grid; 

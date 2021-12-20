@@ -9,7 +9,7 @@ Game::Game(std::size_t gridW, std::size_t gridH)
      : _gridW(static_cast<int>(gridW)),
        _gridH(static_cast<int>(gridH)) {}
 
-void Game::Play(Controller& controller, 
+void Game::play(Controller& controller, 
                 Renderer& renderer,
                 Updater& updater,
                 std::size_t targetFrameDuration) {
@@ -22,21 +22,21 @@ void Game::Play(Controller& controller,
 
   // Start controller thread
   
-  _threads.emplace_back(std::thread(&Controller::HandleInput, std::ref(controller)));
+  _threads.emplace_back(std::thread(&Controller::handleInput, std::ref(controller)));
 
   // Start game engine thread - function Run has one input
-  _threads.emplace_back(std::thread(&Updater::Run, std::ref(updater)));
+  _threads.emplace_back(std::thread(&Updater::run, std::ref(updater)));
   
   // Initialize render frame
-  renderer.InitRender();
+  renderer.initRender();
 
   SDL_StartTextInput();
   
   // main game loop
-  while (!controller.ReadyToStop()) {
+  while (!controller.readyToStop()) {
     frameStart = SDL_GetTicks();
   
-    renderer.Render();
+    renderer.render();
 
     frameEnd = SDL_GetTicks();
 
@@ -47,7 +47,7 @@ void Game::Play(Controller& controller,
 
     // After every second, update the window title.
     if (frameEnd - titleTimestamp >= 1000) {
-      renderer.UpdateWindowTitle(frameCount);
+      renderer.updateWindowTitle(frameCount);
       frameCount = 0;
       titleTimestamp = frameEnd;
     }
@@ -61,8 +61,8 @@ void Game::Play(Controller& controller,
   }
 
   // Stop the threads
-  controller.Stop();
-  updater.Stop();
+  controller.stop();
+  updater.stop();
 
   // Join all threads here
   for(auto &t : _threads)

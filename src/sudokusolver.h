@@ -12,24 +12,24 @@ class SudokuSolver {
 public:
   SudokuSolver();
 
-  bool SetBoard(board_t& board);
+  bool setBoard(board_t& board);
 
-  bool Solve();
+  bool solve();
 
-  board_t GetBoard();
+  board_t getBoard();
 
 
 private:
 
-  void MarkCell(int r, int c, int val, bool free);
+  void markCell(int r, int c, int val, bool free);
 
-  int GetFirstAvailableValFrom(int r, int c, int valStart);
+  int getFirstAvailableValFrom(int r, int c, int valStart);
 
-  int Serialize(int r, int c);
+  int serialize(int r, int c);
 
-  void Deserialize(int idx, int &r, int &c);
+  void deserialize(int idx, int &r, int &c);
 
-  int GetBlockIdx(int r, int c);
+  int getBlockIdx(int r, int c);
 
   int _N1;
   int _N2;

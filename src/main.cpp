@@ -7,7 +7,7 @@
 #include "renderer.h"
 #include "sudokucell.h"
 #include "button.h"
-#include "gameengine.h"
+#include "updater.h"
 #include "sudokuboard.h"
 
 int main() {
@@ -43,14 +43,14 @@ int main() {
   Renderer renderer(kScreenWidth, kScreenHeight, kGridWidth, kGridHeight, kFontSize);
   renderer.SetBoard(grid, buttons, boardPtr);
 
-  GameEngine engine;
-  engine.SetBoard(grid, buttons, boardPtr);
+  Updater updater;
+  updater.SetBoard(grid, buttons, boardPtr);
 
   Game game(kGridWidth, kGridHeight);
 
   // Start the game!
   std::cout << " All instances of Game, controller and Renderer initialized!\n";
-  game.Play(controller, renderer, engine, kMsPerFrame);
+  game.Play(controller, renderer, updater, kMsPerFrame);
   std::cout << "Game has terminated successfully!\n";
   grid.clear();
   buttons.clear();

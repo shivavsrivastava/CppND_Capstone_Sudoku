@@ -12,7 +12,7 @@
 #include "renderer.h"
 #include "button.h"
 #include "sudokucell.h"
-#include "gameengine.h"
+#include "updater.h"
 
 
 class Controller; // forward declaration
@@ -25,7 +25,7 @@ class Game {
   Game(std::size_t gridW, std::size_t gridH);
   void Play(Controller& controller, 
             Renderer& renderer,
-            GameEngine& engine,
+            Updater& updater,
             std::size_t targetFrameDuration);
 
  private:

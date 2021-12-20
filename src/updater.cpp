@@ -3,19 +3,19 @@
 #include <chrono>
 #include "SDL.h"
 #include "SDL_ttf.h"
-#include "gameengine.h"
+#include "updater.h"
 
 
-GameEngine::GameEngine() {
+Updater::Updater() {
   _stop       = false;
   _solver     = std::make_unique<SudokuSolver>();
 }
 
-GameEngine::~GameEngine() {
+Updater::~Updater() {
   Stop();
 }
 
-void GameEngine::Run() {
+void Updater::Run() {
   bool init = false;
   while(!ReadyToStop()) {
     if(!init) {
@@ -25,7 +25,7 @@ void GameEngine::Run() {
       LoadSolvedBoard();
     }
     else { // init = true
-      //std::cout << "GameEngine::Run - entered loop, will get message from MessageQ \n";
+      //std::cout << "Updater::Run - entered loop, will get message from MessageQ \n";
       if(_boardPtr->GetCheckButton()) {
         // logic to check 
       }
@@ -44,24 +44,24 @@ void GameEngine::Run() {
     // Free CPU
     std::this_thread::sleep_for(std::chrono::milliseconds(100));
   }
-  std::cout << "Exit thread: GameEngine::Run\n";
+  std::cout << "Exit thread: Updater::Run\n";
 }
 
-void GameEngine::Stop() {
+void Updater::Stop() {
   std::lock_guard<std::mutex> lck(_stop_mtx);
   _stop = true;
 }
 
-bool GameEngine::ReadyToStop() {
+bool Updater::ReadyToStop() {
   std::lock_guard<std::mutex> lck(_stop_mtx);
   return _stop;
 }
 
-bool GameEngine::LoadBoard(int fileNumber) {
+bool Updater::LoadBoard(int fileNumber) {
   int N = _grid.size(); // default to 81
   int N1 = sqrt(N);
   _board.resize(N1, std::vector<int>(N1));
-  //std::cout << "Loading Board in GameEngine : N= " << N << " N1=" << N1 << "\n";
+  //std::cout << "Loading Board in Updater : N= " << N << " N1=" << N1 << "\n";
   std::string fileName;
   if(fileNumber>=1 && fileNumber <=3)
     fileName = "../resources/beginner" + std::to_string(fileNumber) + ".txt";
@@ -101,7 +101,7 @@ bool GameEngine::LoadBoard(int fileNumber) {
 }
 
 
-void GameEngine::LoadSolvedBoard() {
+void Updater::LoadSolvedBoard() {
   int N = _grid.size(); // default to 81
   int N1 = sqrt(N);
   int index;
@@ -114,7 +114,7 @@ void GameEngine::LoadSolvedBoard() {
   }
 }
 
-bool GameEngine::Solve() {
+bool Updater::Solve() {
   _solver->SetBoard(_board);
 
   using namespace std::chrono;
@@ -134,7 +134,7 @@ bool GameEngine::Solve() {
   return success;
 }
 
-void GameEngine::SetBoard(std::vector<std::shared_ptr<Cell>>& grid, 
+void Updater::SetBoard(std::vector<std::shared_ptr<Cell>>& grid, 
                 std::vector<std::shared_ptr<Button>>& buttons,
                 std::shared_ptr<SudokuBoard>& boardPtr)
         {_grid = grid; _buttons = buttons; _boardPtr = boardPtr;}

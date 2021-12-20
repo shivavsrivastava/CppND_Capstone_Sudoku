@@ -11,7 +11,7 @@ Game::Game(std::size_t gridW, std::size_t gridH)
 
 void Game::Play(Controller& controller, 
                 Renderer& renderer,
-                GameEngine& engine,
+                Updater& updater,
                 std::size_t targetFrameDuration) {
   Uint32 titleTimestamp = SDL_GetTicks();
   Uint32 frameStart;
@@ -25,7 +25,7 @@ void Game::Play(Controller& controller,
   _threads.emplace_back(std::thread(&Controller::HandleInput, std::ref(controller)));
 
   // Start game engine thread - function Run has one input
-  _threads.emplace_back(std::thread(&GameEngine::Run, std::ref(engine)));
+  _threads.emplace_back(std::thread(&Updater::Run, std::ref(updater)));
   
   // Initialize render frame
   renderer.InitRender();
@@ -62,7 +62,7 @@ void Game::Play(Controller& controller,
 
   // Stop the threads
   controller.Stop();
-  engine.Stop();
+  updater.Stop();
 
   // Join all threads here
   for(auto &t : _threads)

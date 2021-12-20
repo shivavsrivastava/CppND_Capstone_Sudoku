@@ -1,5 +1,5 @@
-#ifndef GAMEENGINE_H
-#define GAMEENGINE_H
+#ifndef UPDATER_H
+#define UPDATER_H
 
 #include <random>
 #include <vector>
@@ -14,10 +14,10 @@
 class SudokuSolver;
 class SudokuBoard;
 
-class GameEngine {
+class Updater {
  public:
-  GameEngine();
-  ~GameEngine();
+  Updater();
+  ~Updater();
   bool LoadBoard(int fileNum);
   void Run();
   void SetBoard(std::vector<std::shared_ptr<Cell>>& grid, 

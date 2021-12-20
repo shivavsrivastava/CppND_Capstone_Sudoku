@@ -8,7 +8,7 @@
 #include "sudokucell.h"
 #include "button.h"
 #include "game.h"
-#include "sudokuboard.h"
+#include "sudokuscoreboard.h"
 
 
 class Game;
@@ -24,7 +24,7 @@ class Renderer {
   void updateWindowTitle(int fps);
   void setBoard(std::vector<std::shared_ptr<Cell>>& grid, 
               std::vector<std::shared_ptr<Button>>& buttons,
-                std::shared_ptr<SudokuBoard>& boardPtr)
+                std::shared_ptr<SudokuScoreBoard>& boardPtr)
         {_grid = grid; _buttons = buttons; _boardPtr = boardPtr;};
   void initRender();
 
@@ -58,7 +58,7 @@ class Renderer {
 
   std::vector<std::shared_ptr<Cell>>   _grid;
   std::vector<std::shared_ptr<Button>> _buttons;
-  std::shared_ptr<SudokuBoard>         _boardPtr;
+  std::shared_ptr<SudokuScoreBoard>    _boardPtr;
 };
 
 #endif

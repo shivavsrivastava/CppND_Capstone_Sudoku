@@ -8,7 +8,7 @@
 #include "sudokusolver.h"
 #include "button.h"
 #include "sudokucell.h"
-#include "sudokuboard.h"
+#include "sudokuscoreboard.h"
 
 
 class SudokuSolver;
@@ -22,7 +22,7 @@ class Updater {
   void run();
   void setBoard(std::vector<std::shared_ptr<Cell>>& grid, 
                 std::vector<std::shared_ptr<Button>>& buttons, 
-                std::shared_ptr<SudokuBoard>& boardPtr);
+                std::shared_ptr<SudokuScoreBoard>& boardPtr);
     
   void stop();
 
@@ -35,7 +35,7 @@ class Updater {
   std::mutex _stop_mtx;
   std::vector<std::shared_ptr<Cell>>         _grid;
   std::vector<std::shared_ptr<Button>>       _buttons;
-  std::shared_ptr<SudokuBoard>               _boardPtr;
+  std::shared_ptr<SudokuScoreBoard>          _boardPtr;
   std::vector<std::vector<int>>              _board;
   std::vector<std::vector<int>>              _solution;
   std::unique_ptr<SudokuSolver>              _solver;

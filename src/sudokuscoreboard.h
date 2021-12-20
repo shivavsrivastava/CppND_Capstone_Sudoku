@@ -1,10 +1,10 @@
-#ifndef SUDOKUBOARD_H
-#define SUDOKUBOARD_H
+#ifndef SUDOKUSCOREBOARD_H
+#define SUDOKUSCOREBOARD_H
 #include <mutex>
 
-class SudokuBoard {
+class SudokuScoreBoard {
 public:
-    SudokuBoard() {
+    SudokuScoreBoard() {
         _chkButton = false;
         _genNewButton = false;
         _solButton    = false;

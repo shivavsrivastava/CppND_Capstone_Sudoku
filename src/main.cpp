@@ -8,7 +8,7 @@
 #include "sudokucell.h"
 #include "button.h"
 #include "updater.h"
-#include "sudokuboard.h"
+#include "sudokuscoreboard.h"
 
 int main() {
   constexpr std::size_t kFramesPerSecond{30};
@@ -34,7 +34,7 @@ int main() {
   }
 
   // Create MessageQueue
-  std::shared_ptr<SudokuBoard> boardPtr = std::make_shared<SudokuBoard>();
+  std::shared_ptr<SudokuScoreBoard> boardPtr = std::make_shared<SudokuScoreBoard>();
 
   // Create other objects
   Controller controller;

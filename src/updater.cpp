@@ -136,5 +136,5 @@ bool Updater::solve() {
 
 void Updater::setBoard(std::vector<std::shared_ptr<Cell>>& grid, 
                 std::vector<std::shared_ptr<Button>>& buttons,
-                std::shared_ptr<SudokuBoard>& boardPtr)
+                std::shared_ptr<SudokuScoreBoard>& boardPtr)
         {_grid = grid; _buttons = buttons; _boardPtr = boardPtr;}

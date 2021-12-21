@@ -16,7 +16,7 @@ class SudokuBoard;
 
 class Updater {
  public:
-  Updater();
+  Updater(int seed, int totalGames);
   ~Updater();
   bool loadBoard(int fileNum);
   void run();
@@ -29,7 +29,7 @@ class Updater {
  private:
   bool solve();
   bool readyToStop();
-  void loadSolvedBoard();
+  void loadSolvedBoardAndGrid();
 
   bool _stop;
   std::mutex _stop_mtx;
@@ -39,6 +39,9 @@ class Updater {
   std::vector<std::vector<int>>              _board;
   std::vector<std::vector<int>>              _solution;
   std::unique_ptr<SudokuSolver>              _solver;
+  int                                        _seed;
+  int                                        _totalGames;
+  int                                        _lastGameSolved;
 };
 
 #endif

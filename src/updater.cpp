@@ -6,9 +6,12 @@
 #include "updater.h"
 
 
-Updater::Updater() {
+Updater::Updater(int seed, int totalGames) {
+  _seed       = seed;
+  _totalGames = totalGames;
   _stop       = false;
-  _solver     = std::make_unique<SudokuSolver>();
+  _lastGameSolved = 1;
+  _solver     = nullptr;
 }
 
 Updater::~Updater() {
@@ -17,12 +20,18 @@ Updater::~Updater() {
 
 void Updater::run() {
   bool init = false;
+  // seed the random generator
+  srand(_seed);
   while(!readyToStop()) {
     if(!init) {
       // Run the initial load board logic
-      loadBoard(9); // start with file number 1
+      int newGame = 1;
+      loadBoard(newGame); // start with file number 1
       solve();
-      loadSolvedBoard();
+      loadSolvedBoardAndGrid();
+      _boardPtr->setGameLevel(newGame);
+      _boardPtr->setGenNewButton(false);
+      _lastGameSolved = newGame;
     }
     else { // init = true
       //std::cout << "Updater::Run - entered loop, will get message from MessageQ \n";
@@ -31,6 +40,18 @@ void Updater::run() {
       }
       if(_boardPtr->getGenNewButton()) {
         // logic to generate new sudoku and set the level button too
+        int newGame = rand()%_totalGames + 1;
+        while(newGame == _lastGameSolved) 
+          newGame = rand()%_totalGames + 1;
+        #ifdef DEBUG1
+        std::cout << "New game will be loaded, new game number= " << newGame << "\n";
+        #endif
+        _boardPtr->setGameLevel(newGame);
+        loadBoard(newGame);
+        solve();
+        loadSolvedBoardAndGrid();
+        _boardPtr->setGenNewButton(false);
+        _lastGameSolved = newGame;
       }
       if(_boardPtr->getSolButton()) {
         // Renderer has to display solution
@@ -60,7 +81,8 @@ bool Updater::readyToStop() {
 bool Updater::loadBoard(int fileNumber) {
   int N = _grid.size(); // default to 81
   int N1 = sqrt(N);
-  _board.resize(N1, std::vector<int>(N1));
+  _board.resize(N1, std::vector<int>(N1, 0));
+
   //std::cout << "Loading Board in Updater : N= " << N << " N1=" << N1 << "\n";
   std::string fileName;
   if(fileNumber>=1 && fileNumber <=3)
@@ -81,14 +103,6 @@ bool Updater::loadBoard(int fileNumber) {
       fp >> val;
       //std::cout << "LoadBoard: val = " << val << "\n";
       _board[r][c] = val;
-      // Set the grid directly
-      index = r*N1 + c;
-      _grid[index]->setNumber(val);
-      if(val ==0)
-        _grid[index]->setEditable(true);
-      else
-        _grid[index]->setEditable(false);
-      
       // if the board is not filled and there is no input
       if ( !fp ) {
         std::cerr << "Error reading file for element (" << r << ", " << c << ")\n"; 
@@ -96,18 +110,23 @@ bool Updater::loadBoard(int fileNumber) {
       }
     }
   }
-  std::cout << "Board Loaded with game 1\n";
+  std::cout << "Board Loaded with game " << fileNumber << "\n";
   return true;
 }
 
 
-void Updater::loadSolvedBoard() {
+void Updater::loadSolvedBoardAndGrid() {
   int N = _grid.size(); // default to 81
   int N1 = sqrt(N);
   int index;
   for(int r = 0; r < N1; r++) {
     for(int c = 0; c < N1; c++){
       index = r*N1 + c;
+      _grid.at(index)->setNumber(_board[r][c]);
+      if(_board[r][c]==0)
+        _grid.at(index)->setEditable(true);
+      else
+        _grid.at(index)->setEditable(false);
       _grid.at(index)->setSolution(_solution[r][c]);
       
     }
@@ -115,6 +134,7 @@ void Updater::loadSolvedBoard() {
 }
 
 bool Updater::solve() {
+  _solver     = std::make_unique<SudokuSolver>();
   _solver->setBoard(_board);
 
   using namespace std::chrono;
@@ -129,7 +149,7 @@ bool Updater::solve() {
     duration<double> timeSpan = duration_cast<duration<double>>(t2 - t1);
     std::cout << "Solve time: " << timeSpan.count()*1000 << " ms \n";
     _solution = _solver->getBoard();
-    loadSolvedBoard();
+    loadSolvedBoardAndGrid();
   }
   return success;
 }

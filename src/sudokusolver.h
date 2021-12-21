@@ -3,6 +3,7 @@
 #include <iostream>
 #include <vector>
 #include <math.h>
+#include <mutex>
 
 
 typedef std::vector<std::vector<int>> board_t;
@@ -30,6 +31,7 @@ private:
   void deserialize(int idx, int &r, int &c);
 
   int getBlockIdx(int r, int c);
+
 
   int _N1;
   int _N2;

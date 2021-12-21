@@ -20,6 +20,8 @@ int main() {
   constexpr std::size_t kFontSize{32};
   constexpr std::size_t kSudokuSize{81};
   constexpr std::size_t kButtons{5};
+  constexpr std::size_t kSeed{42}; // Seed for random number generator
+  constexpr std::size_t kTotalGames{9}; // 9 for now, change this number if more games added to resources.
 
   // Initialize all the 81 sudoku cells
   std::vector<std::shared_ptr<Cell>> grid;
@@ -43,7 +45,7 @@ int main() {
   Renderer renderer(kScreenWidth, kScreenHeight, kGridWidth, kGridHeight, kFontSize);
   renderer.setBoard(grid, buttons, boardPtr);
 
-  Updater updater;
+  Updater updater(kSeed, kTotalGames);
   updater.setBoard(grid, buttons, boardPtr);
 
   Game game(kGridWidth, kGridHeight);

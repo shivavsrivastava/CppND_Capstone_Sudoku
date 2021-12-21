@@ -48,12 +48,12 @@ void Controller::handleInput() {
                 std::cout << "Controller::HandleInput CheckButton clicked \n";
                 break;
               case(3):
-                _boardPtr->setGenNewButton(true);
-                std::cout << "Controller::HandleInput GenNew clicked \n";
-                break;
-              case (4):
                 _boardPtr->setSolButton(true);
                 std::cout << "Controller::HandleInput SolutionButton clicked \n";
+                break;
+              case (4):
+                _boardPtr->setGenNewButton(true);
+                std::cout << "Controller::HandleInput GenNew clicked \n";
                 break;
             }
           }

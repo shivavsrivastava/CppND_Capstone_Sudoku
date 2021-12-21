@@ -303,6 +303,8 @@ void Renderer::createInterfaceLayout()
 }
 
 void Renderer::renderFrame() {
+	// Choose color of text
+	SDL_Color textColor = { 200, 200, 200, SDL_ALPHA_OPAQUE }; // white
 	// Render the sudoku cells
 	for (int index = 0; index < _grid.size(); index++)
 	{
@@ -319,8 +321,21 @@ void Renderer::renderFrame() {
 	}
 
 	// Render other buttons
+	int baseIndex = 10; // start of buttons
 	for (int index = 0; index < _buttons.size(); index++)
 	{
+		// Render Level Button
+		if(index==0) {
+			int level = _boardPtr->getGameLevel();
+			int cIndex = baseIndex + index;
+			if(level <= 3)
+				loadTexture(_textureCache[cIndex], "Level: Beginner", textColor);
+			else if(level > 3 && level <=6)
+				loadTexture(_textureCache[cIndex], "Level: Advanced", textColor);
+			else
+				loadTexture(_textureCache[cIndex], "Level: Expert", textColor);
+			_buttons[index]->setTexture(_textureCache[cIndex]);
+		}
 		// Render button
 		_buttons[index]->renderButton(_sdlRenderer);
 

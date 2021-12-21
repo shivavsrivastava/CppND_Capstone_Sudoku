@@ -52,12 +52,22 @@ public:
         std::lock_guard<std::mutex> lck(_mtx);
         return _currentCellValid;}
 
+    void  setGameLevel(int level) {
+        std::lock_guard<std::mutex> lck(_mtx);
+        _gameLevel = level;}
+
+    int  getGameLevel() {
+        std::lock_guard<std::mutex> lck(_mtx);
+        return _gameLevel;}
+
+
 private:
     bool _chkButton;
     bool _genNewButton;
     bool _solButton;
     int  _currentCellNum;
     bool _currentCellValid;
+    int  _gameLevel;
     std::mutex _mtx; 
 };
 

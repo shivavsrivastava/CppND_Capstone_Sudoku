@@ -5,13 +5,8 @@ SudokuSolver::SudokuSolver() {
   _N2 = 9;
 }
 
-
 bool SudokuSolver::setBoard(board_t& board) {
-  // Copy over board
   _board = board;
-
-  _N1 = round(sqrt(board.size()));
-  _N2 = board.size();
 
   // Reset row, col, block and diag trackers
   _rowFree.resize(_N2,std::vector<bool>(_N2,true));
@@ -50,16 +45,16 @@ bool SudokuSolver::solve() {
     iterCount++;
     deserialize(*searchPathIt,r,c);
 
-    //#ifndef DEBUG1
-    //std::cout << "Checking cell index " << *searchPathIt << " (" << r << ", " << c << ")\n";
-    //#endif
+    #ifdef DEBUG1
+    std::cout << "Checking cell index " << *searchPathIt << " (" << r << ", " << c << ")\n";
+    #endif
 
     int curVal = _board[r][c];
     int nextVal = getFirstAvailableValFrom(r,c,curVal+1);
 
-    //#ifndef DEBUG1
-    //std::cout << "Next value: " << nextVal << "\n";
-    //#endif
+    #ifdef DEBUG1
+    std::cout << "Next value: " << nextVal << "\n";
+    #endif
     
     if (nextVal == 0) { // backtrack
       if (searchPathIt == searchPath.begin()) {
@@ -79,16 +74,16 @@ bool SudokuSolver::solve() {
       int val = _board[r][c];
       markCell(r,c,val,true); 
 
-      //#ifndef DEBUG1
-      //// std::cout << "Backtracking \n";
-      //#endif
+      #ifdef DEBUG1
+      std::cout << "Backtracking \n";
+      #endif
     }
     else { // go forwards
       
-      //#ifndef DEBUG1
-      //std::cout << "Placing " << nextVal << " at (" << r << ", " <<
-      //  c << ") \n";
-      //#endif
+      #ifdef DEBUG1
+      std::cout << "Placing " << nextVal << " at (" << r << ", " <<
+       c << ") \n";
+      #endif
 
       // Mark board with trial val
       _board[r][c] = nextVal;
@@ -101,9 +96,10 @@ bool SudokuSolver::solve() {
     }
   }
 
-  #ifndef NDEBUG
+
+  //#ifdef DEBUG1
     std::cout << "Solved in " << iterCount << " iterations \n";
-  #endif
+  //#endif
 
   return true;
 }

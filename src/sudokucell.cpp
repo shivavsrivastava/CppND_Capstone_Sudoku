@@ -15,6 +15,7 @@ Cell::Cell(int id)
 
 void Cell::setNumber(const int number)
 {
+	std::lock_guard<std::mutex> lck(_bmtx);
 	if (number <= 9 && number>= 1)
 	{
 		_number = number;
@@ -27,11 +28,13 @@ void Cell::setNumber(const int number)
 
 int Cell::getNumber()
 {
+	std::lock_guard<std::mutex> lck(_bmtx);
 	return _number;
 }
 
 void Cell::setSolution(const int solution)
 {
+	std::lock_guard<std::mutex> lck(_bmtx);
 	if (solution <= 9 && solution>= 1)
 	{
 		_solution = solution;
@@ -44,6 +47,7 @@ void Cell::setSolution(const int solution)
 
 void Cell::setEditable(const bool editable)
 {
+	std::lock_guard<std::mutex> lck(_bmtx);
 	_editable = editable;
 	if (_editable)
 	{
@@ -62,6 +66,7 @@ void Cell::setEditable(const bool editable)
 }
 bool Cell::isEditable()
 {
+	std::lock_guard<std::mutex> lck(_bmtx);
 	return _editable;
 }
 
@@ -70,7 +75,8 @@ void Cell::handleKeyboardEvent(const SDL_Event* event)
 	// Handle backspace
 	if (event->key.keysym.sym == SDLK_BACKSPACE && _number != 0)
 	{
-		// Empty char
+		std::lock_guard<std::mutex> lck(_bmtx);
+		// Empty number
 		_number = 0;
 	}
 	// Handle text input
@@ -86,6 +92,7 @@ void Cell::handleKeyboardEvent(const SDL_Event* event)
 
 bool Cell::isCorrect()
 {
+	std::lock_guard<std::mutex> lck(_bmtx);
 	return (_number == _solution);
 }
 

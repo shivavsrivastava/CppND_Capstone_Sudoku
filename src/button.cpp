@@ -26,21 +26,25 @@ Button::Button(int id)
 
 void Button::setTexture(SDL_Texture* texture)
 {
+	std::lock_guard<std::mutex> lck(_bmtx);
 	_texture = texture;
 }
 
 void Button::setButtonRect(const SDL_Rect& rect)
 {
+	std::lock_guard<std::mutex> lck(_bmtx);
 	_buttonRect = rect;
 }
 
 void Button::setTextureRect(const SDL_Rect& rect)
 {
+	std::lock_guard<std::mutex> lck(_bmtx);
 	_textureRect = rect;
 }
 
 void Button::centerTextureRect()
 {
+	std::lock_guard<std::mutex> lck(_bmtx);
 	int textureWidth;
 	int textureHeight;
 	SDL_QueryTexture(_texture, NULL, NULL, &textureWidth, &textureHeight);
@@ -53,12 +57,13 @@ void Button::centerTextureRect()
 
 void Button::setSelected(const bool selected)
 {
+	std::lock_guard<std::mutex> lck(_bmtx);
 	_selected = selected;
 }
 
+// private function used by handleMouseEvent - hence does not wait on mutex
 bool Button::isMouseInside(const int x, const int y)
 {
-
 	// Check if mouse is in button
 	bool inside = true;
 
@@ -88,6 +93,7 @@ bool Button::isMouseInside(const int x, const int y)
 
 ButtonState Button::getMouseEvent(const SDL_Event* event)
 {
+	std::lock_guard<std::mutex> lck(_bmtx);
 	//If mouse event happened
 	if (event->type == SDL_MOUSEMOTION || event->type == SDL_MOUSEBUTTONDOWN || event->type == SDL_MOUSEBUTTONUP)
 	{
@@ -126,11 +132,13 @@ ButtonState Button::getMouseEvent(const SDL_Event* event)
 
 void Button::setMouseDownColor(const SDL_Color& color)
 {
+	std::lock_guard<std::mutex> lck(_bmtx);
 	_mouseDownC = color;
 }
 
 void Button::renderButton(SDL_Renderer* renderer)
 {
+	std::lock_guard<std::mutex> lck(_bmtx);
 	// If current button is selected
 	if (_selected)
 	{
@@ -162,6 +170,7 @@ void Button::renderButton(SDL_Renderer* renderer)
 
 void Button::renderTexture(SDL_Renderer* renderer)
 {
+	std::lock_guard<std::mutex> lck(_bmtx);
 	// Set rendering space
 	SDL_RenderCopy(renderer, _texture, nullptr, &_textureRect);
 }

@@ -41,8 +41,6 @@ public:
 	// Set selected
 	void setSelected(const bool selected);
 
-	// Check if mouse is inside button
-	bool isMouseInside(const int x, const int y);
 	
 	// Get mouse event
 	ButtonState getMouseEvent(const SDL_Event* event);
@@ -69,6 +67,9 @@ private:
 	bool _selected;
 
 
+	// Check if mouse is inside button
+	bool isMouseInside(const int x, const int y);
+
 protected:
 	// Define button colors
 	SDL_Color _mouseOutC;
@@ -77,6 +78,8 @@ protected:
 	SDL_Color _mouseUpC;
 	int       _id;
 	static std::mutex _mtx; // mutex for protecting cout
+	// mutex for button functions access
+	std::mutex  _bmtx;
 };
 
 #endif

@@ -65,7 +65,7 @@ void Controller::handleInput() {
       }
 
       // Free CPU
-      //std::this_thread::sleep_for(std::chrono::milliseconds(1));
+      std::this_thread::sleep_for(std::chrono::milliseconds(1));
     }
   }
   std::cout << "Exit thread: Controller::HandleInput\n";

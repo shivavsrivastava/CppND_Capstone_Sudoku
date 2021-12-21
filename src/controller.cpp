@@ -44,16 +44,33 @@ void Controller::handleInput() {
           if(it->getMouseEvent(&e) == ButtonState::BUTTON_MOUSE_DOWN) {
             switch (it->getId()) {
               case (2):
-                _boardPtr->setCheckButton(true);
+                if(_boardPtr->getCheckButton()) {
+                  // Check button was clicked again (click again to clear)
+                  _boardPtr->setCheckButton(false);
+                }
+                else
+                  _boardPtr->setCheckButton(true);
                 std::cout << "Controller::HandleInput CheckButton clicked \n";
+                // reset the solution button
+                _boardPtr->setSolButton(false);
                 break;
               case(3):
-                _boardPtr->setSolButton(true);
+                if(_boardPtr->getSolButton()) {
+                  // Solution button was clicked again (click again to clear)
+                  _boardPtr->setSolButton(false);
+                }
+                else
+                  _boardPtr->setSolButton(true);
                 std::cout << "Controller::HandleInput SolutionButton clicked \n";
+                // reset the check button
+                _boardPtr->setCheckButton(false);
                 break;
               case (4):
                 _boardPtr->setGenNewButton(true);
                 std::cout << "Controller::HandleInput GenNew clicked \n";
+                // reset the solution button and check button
+                _boardPtr->setSolButton(false);
+                _boardPtr->setCheckButton(false);
                 break;
             }
           }

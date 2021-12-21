@@ -45,6 +45,12 @@ void Cell::setSolution(const int solution)
 	}
 }
 
+int Cell::getSolution()
+{
+	std::lock_guard<std::mutex> lck(_bmtx);
+	return _solution;
+}
+
 void Cell::setEditable(const bool editable)
 {
 	std::lock_guard<std::mutex> lck(_bmtx);

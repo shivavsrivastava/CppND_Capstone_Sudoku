@@ -305,14 +305,33 @@ void Renderer::createInterfaceLayout()
 void Renderer::renderFrame() {
 	// Choose color of text
 	SDL_Color textColor = { 200, 200, 200, SDL_ALPHA_OPAQUE }; // white
+	SDL_Color solColor = { 91, 191, 116, SDL_ALPHA_OPAQUE }; // green
+
 	// Render the sudoku cells
 	for (int index = 0; index < _grid.size(); index++)
 	{
 		// Render button
 		_grid[index]->renderButton(_sdlRenderer);
 
-		int num = _grid[index]->getNumber();
-		_grid[index]->setTexture(_textureCache[num]);
+		// When solution button is clicked, then show completed Sudoku, with solution in green
+		if(_boardPtr->getSolButton()) { // when solution button clicked
+			int sol = _grid[index]->getSolution();
+			std::string solString = std::to_string(sol);
+			if(_grid[index]->isEditable()) {
+				loadTexture(_textureCache[sol], solString.c_str(), solColor);
+			} else {
+				loadTexture(_textureCache[sol], solString.c_str(), textColor);
+			}
+			_grid[index]->setTexture(_textureCache[sol]);
+
+		} else { // normal case
+			int num = _grid[index]->getNumber();
+			std::string numString = " ";
+			if(num!=0)
+				numString = std::to_string(num);
+			loadTexture(_textureCache[num], numString.c_str(), textColor);
+			_grid[index]->setTexture(_textureCache[num]);
+		}
 		// Re-center since diffrerent numbers have different sized textures
 		_grid[index]->centerTextureRect();
 
@@ -336,6 +355,7 @@ void Renderer::renderFrame() {
 				loadTexture(_textureCache[cIndex], "Level: Expert", textColor);
 			_buttons[index]->setTexture(_textureCache[cIndex]);
 		}
+
 		// Render button
 		_buttons[index]->renderButton(_sdlRenderer);
 

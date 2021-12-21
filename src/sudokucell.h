@@ -21,6 +21,7 @@ public:
 
 	// Set solution
 	void setSolution(const int solution);
+	int getSolution();
 
 	// Set and get editability (setting editability changes color mapping for button)
 	void setEditable(const bool editable);

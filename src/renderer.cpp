@@ -320,25 +320,23 @@ void Renderer::renderFrame() {
 		}
 
 	} 
-	// When check button is clicked, then numbers entered in the sudoku are wrong or right
+	// When check button is clicked, then show numbers filled in the sudoku are wrong or right
 	else if(_boardPtr->getCheckButton()) { 
 		for (int index = 0; index < _grid.size(); index++) {
 			// Render button
 			_grid[index]->renderButton(_sdlRenderer);
 			int num = _grid[index]->getNumber();
 			std::string numString = std::to_string(num);
-			if(_grid[index]->isEditable() && num!=0) {
+			// check for wrong entry
+			if(_grid[index]->isEditable()) {
 				if(_grid[index]->isCorrect())
 					loadTexture(_textureCache[num], numString.c_str(), solColor);
-				else 
-					loadTexture(_textureCache[num], numString.c_str(), redColor);
-			} else {
-				if(num!=0)
-					loadTexture(_textureCache[num], numString.c_str(), textColor);
 				else {
-					numString = " ";
-					loadTexture(_textureCache[num], numString.c_str(), textColor);
+					if(num!=0)
+						loadTexture(_textureCache[num], numString.c_str(), redColor);
 				}
+			} else {
+				loadTexture(_textureCache[num], numString.c_str(), textColor);
 			}
 			_grid[index]->setTexture(_textureCache[num]);
 			// Re-center since diffrerent numbers have different sized textures
@@ -347,6 +345,15 @@ void Renderer::renderFrame() {
 			// Render texture
 			_grid[index]->renderTexture(_sdlRenderer);
 		}
+		// One more logic: if sudoku is complete then say congratulations, where the level shows
+		bool complete = true;
+		for (int index = 0; index < _grid.size(); index++) {
+			if(_grid[index]->isEditable() && !_grid[index]->isCorrect()) {
+				complete = false;
+				break;
+			}
+		}
+		_boardPtr->setSudokuComplete(complete);
 	}
 	// normal case 
 	else {
@@ -374,14 +381,19 @@ void Renderer::renderFrame() {
 		int cIndex = baseIndex + index;
 		// Render Level Button
 		if(index==0) {
-			int level = _boardPtr->getGameLevel();
-			if(level <= 3)
-				loadTexture(_textureCache[cIndex], "Level: Beginner", textColor);
-			else if(level > 3 && level <=6)
-				loadTexture(_textureCache[cIndex], "Level: Advanced", textColor);
-			else
-				loadTexture(_textureCache[cIndex], "Level: Expert", textColor);
-			_buttons[index]->setTexture(_textureCache[cIndex]);
+			if(_boardPtr->getSudokuComplete()) {
+				loadTexture(_textureCache[cIndex], "Congratulations!", solColor);
+				_buttons[index]->setTexture(_textureCache[cIndex]);
+			}  else {
+				int level = _boardPtr->getGameLevel();
+				if(level <= 3)
+					loadTexture(_textureCache[cIndex], "Level: Beginner", textColor);
+				else if(level > 3 && level <=6)
+					loadTexture(_textureCache[cIndex], "Level: Advanced", textColor);
+				else
+					loadTexture(_textureCache[cIndex], "Level: Expert", textColor);
+				_buttons[index]->setTexture(_textureCache[cIndex]);
+			}
 		}
 		// Render button
 		_buttons[index]->renderButton(_sdlRenderer);

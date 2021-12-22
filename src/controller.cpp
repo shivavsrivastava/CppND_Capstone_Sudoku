@@ -68,8 +68,9 @@ void Controller::handleInput() {
                 #ifdef DEBUG1
                 std::cout << "Controller::HandleInput SolutionButton clicked \n";
                 #endif
-                // reset the check button
+                // reset the check button and complete state
                 _boardPtr->setCheckButton(false);
+                _boardPtr->setSudokuComplete(false);
                 break;
               case (3):
                 _boardPtr->setGenNewButton(true);
@@ -79,6 +80,7 @@ void Controller::handleInput() {
                 // reset the solution button and check button
                 _boardPtr->setSolButton(false);
                 _boardPtr->setCheckButton(false);
+                _boardPtr->setSudokuComplete(false);
                 break;
             }
           }

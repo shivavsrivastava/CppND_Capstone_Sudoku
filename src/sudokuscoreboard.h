@@ -60,6 +60,14 @@ public:
         std::lock_guard<std::mutex> lck(_mtx);
         return _gameLevel;}
 
+    void setSudokuComplete(bool complete) {
+        std::lock_guard<std::mutex> lck(_mtx);
+        _sudokuComplete = complete;}
+    
+    bool getSudokuComplete() {
+        std::lock_guard<std::mutex> lck(_mtx);
+        return _sudokuComplete;}
+
 
 private:
     bool _chkButton;
@@ -68,6 +76,7 @@ private:
     int  _currentCellNum;
     bool _currentCellValid;
     int  _gameLevel;
+    bool _sudokuComplete;
     std::mutex _mtx; 
 };
 

@@ -34,10 +34,6 @@ void Updater::run() {
       _lastGameSolved = newGame;
     }
     else { // init = true
-      //std::cout << "Updater::Run - entered loop, will get message from MessageQ \n";
-      if(_boardPtr->getCheckButton()) {
-        // logic to check 
-      }
       if(_boardPtr->getGenNewButton()) {
         // logic to generate new sudoku and set the level button too
         int newGame = rand()%_totalGames + 1;
@@ -52,9 +48,6 @@ void Updater::run() {
         loadSolvedBoardAndGrid();
         _boardPtr->setGenNewButton(false);
         _lastGameSolved = newGame;
-      }
-      if(_boardPtr->getSolButton()) {
-        // Renderer has to display solution
       }
       if(_boardPtr->getValidCell()) {
         int cellIndex = _boardPtr->getCurrentCellNum();

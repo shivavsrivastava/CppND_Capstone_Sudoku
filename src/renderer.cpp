@@ -306,15 +306,14 @@ void Renderer::renderFrame() {
 	// Choose color of text
 	SDL_Color textColor = { 200, 200, 200, SDL_ALPHA_OPAQUE }; // white
 	SDL_Color solColor = { 91, 191, 116, SDL_ALPHA_OPAQUE }; // green
+	SDL_Color redColor = { 200, 73, 46, SDL_ALPHA_OPAQUE }; // red
 
-	// Render the sudoku cells
-	for (int index = 0; index < _grid.size(); index++)
-	{
-		// Render button
-		_grid[index]->renderButton(_sdlRenderer);
 
-		// When solution button is clicked, then show completed Sudoku, with solution in green
-		if(_boardPtr->getSolButton()) { // when solution button clicked
+	// When solution button is clicked, then show completed Sudoku, with solution in green
+	if(_boardPtr->getSolButton()) { // when solution button clicked
+		for (int index = 0; index < _grid.size(); index++) {
+			// Render button
+			_grid[index]->renderButton(_sdlRenderer);
 			int sol = _grid[index]->getSolution();
 			std::string solString = std::to_string(sol);
 			if(_grid[index]->isEditable()) {
@@ -323,20 +322,59 @@ void Renderer::renderFrame() {
 				loadTexture(_textureCache[sol], solString.c_str(), textColor);
 			}
 			_grid[index]->setTexture(_textureCache[sol]);
+			// Re-center since diffrerent numbers have different sized textures
+			_grid[index]->centerTextureRect();
 
-		} else { // normal case
+			// Render texture
+			_grid[index]->renderTexture(_sdlRenderer);
+		}
+
+	} 
+	// When check button is clicked, then numbers entered in the sudoku are wrong or right
+	else if(_boardPtr->getCheckButton()) { 
+		for (int index = 0; index < _grid.size(); index++) {
+			// Render button
+			_grid[index]->renderButton(_sdlRenderer);
+			int num = _grid[index]->getNumber();
+			std::string numString = std::to_string(num);
+			if(_grid[index]->isEditable() && num!=0) {
+				if(_grid[index]->isCorrect())
+					loadTexture(_textureCache[num], numString.c_str(), solColor);
+				else 
+					loadTexture(_textureCache[num], numString.c_str(), redColor);
+			} else {
+				if(num!=0)
+					loadTexture(_textureCache[num], numString.c_str(), textColor);
+				else {
+					numString = " ";
+					loadTexture(_textureCache[num], numString.c_str(), textColor);
+				}
+			}
+			_grid[index]->setTexture(_textureCache[num]);
+			// Re-center since diffrerent numbers have different sized textures
+			_grid[index]->centerTextureRect();
+
+			// Render texture
+			_grid[index]->renderTexture(_sdlRenderer);
+		}
+	}
+	// normal case 
+	else {
+		for (int index = 0; index < _grid.size(); index++) {
+			// Render button
+			_grid[index]->renderButton(_sdlRenderer);
 			int num = _grid[index]->getNumber();
 			std::string numString = " ";
 			if(num!=0)
 				numString = std::to_string(num);
 			loadTexture(_textureCache[num], numString.c_str(), textColor);
 			_grid[index]->setTexture(_textureCache[num]);
-		}
-		// Re-center since diffrerent numbers have different sized textures
-		_grid[index]->centerTextureRect();
+			// Re-center since diffrerent numbers have different sized textures
+			_grid[index]->centerTextureRect();
 
-		// Render texture
-		_grid[index]->renderTexture(_sdlRenderer);
+			// Render texture
+			_grid[index]->renderTexture(_sdlRenderer);
+		}
 	}
 
 	// Render other buttons

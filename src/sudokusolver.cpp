@@ -97,9 +97,9 @@ bool SudokuSolver::solve() {
   }
 
 
-  //#ifdef DEBUG1
-    std::cout << "Solved in " << iterCount << " iterations \n";
-  //#endif
+  #ifdef DEBUG1
+  std::cout << "Solved in " << iterCount << " iterations \n";
+  #endif
 
   return true;
 }

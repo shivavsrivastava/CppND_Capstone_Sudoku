@@ -44,7 +44,7 @@ class Renderer {
   SDL_Window*   _sdlWindow;
   SDL_Renderer* _sdlRenderer;
   TTF_Font*     _ttfFont;
-  SDL_Texture*  _textureCache[17]; 
+  SDL_Texture*  _textureCache[14]; 
   
 
   const std::size_t _screenWidth;

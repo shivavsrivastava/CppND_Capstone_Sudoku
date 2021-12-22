@@ -1,6 +1,5 @@
 #include <iostream>
 #include <fstream>
-#include <chrono>
 #include "SDL.h"
 #include "SDL_ttf.h"
 #include "game.h"
@@ -19,12 +18,12 @@ void Game::play(Controller& controller,
   Uint32 frameDuration;
   int frameCount = 0;
   SDL_Event e;
+  
 
   // Start controller thread
-  
   _threads.emplace_back(std::thread(&Controller::handleInput, std::ref(controller)));
 
-  // Start game engine thread - function Run has one input
+  // Start updater thread - function run
   _threads.emplace_back(std::thread(&Updater::run, std::ref(updater)));
   
   // Initialize render frame
@@ -40,10 +39,11 @@ void Game::play(Controller& controller,
 
     frameEnd = SDL_GetTicks();
 
-    // Keep track of how long each loop through the input/update/render cycle
+    // Keep track of how long each loop through the render cycle takes
     // takes.
     frameCount++;
     frameDuration = frameEnd - frameStart;
+
 
     // After every second, update the window title.
     if (frameEnd - titleTimestamp >= 1000) {

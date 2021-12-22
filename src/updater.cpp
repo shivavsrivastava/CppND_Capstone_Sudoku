@@ -56,7 +56,7 @@ void Updater::run() {
     // Set init to true, so that first logic is not visited again
     init = true; 
     // Free CPU
-    std::this_thread::sleep_for(std::chrono::milliseconds(100));
+    std::this_thread::sleep_for(std::chrono::milliseconds(1));
   }
   std::cout << "Exit thread: Updater::Run\n";
 }
@@ -76,7 +76,6 @@ bool Updater::loadBoard(int fileNumber) {
   int N1 = sqrt(N);
   _board.resize(N1, std::vector<int>(N1, 0));
 
-  //std::cout << "Loading Board in Updater : N= " << N << " N1=" << N1 << "\n";
   std::string fileName;
   if(fileNumber>=1 && fileNumber <=3)
     fileName = "../resources/beginner" + std::to_string(fileNumber) + ".txt";
@@ -89,12 +88,10 @@ bool Updater::loadBoard(int fileNumber) {
   if (! fp) {
     std::cerr << "Error, file couldn't be opened \n"; 
   }
-  //std::cout << "LoadBoard: game 1 found\n";
   int val, index=0;
   for(int r = 0; r < N1; r++) {
     for(int c = 0; c < N1; c++){
       fp >> val;
-      //std::cout << "LoadBoard: val = " << val << "\n";
       _board[r][c] = val;
       // if the board is not filled and there is no input
       if ( !fp ) {
@@ -103,7 +100,9 @@ bool Updater::loadBoard(int fileNumber) {
       }
     }
   }
+  #ifdef DEBUG
   std::cout << "Board Loaded with game " << fileNumber << "\n";
+  #endif
   return true;
 }
 
@@ -138,9 +137,10 @@ bool Updater::solve() {
     std::cerr << "Error! Puzzle not solvable. \n";
   }
   else {
-    std::cout << "Puzzle solved. \n";
     duration<double> timeSpan = duration_cast<duration<double>>(t2 - t1);
-    std::cout << "Solve time: " << timeSpan.count()*1000 << " ms \n";
+    #ifdef DEBUG1
+    std::cout << "Puzzle Solve time: " << timeSpan.count()*1000 << " ms \n";
+    #endif
     _solution = _solver->getBoard();
     loadSolvedBoardAndGrid();
   }

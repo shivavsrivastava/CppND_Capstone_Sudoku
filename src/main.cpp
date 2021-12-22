@@ -19,7 +19,7 @@ int main() {
   constexpr std::size_t kGridHeight{720};
   constexpr std::size_t kFontSize{32};
   constexpr std::size_t kSudokuSize{81};
-  constexpr std::size_t kButtons{5};
+  constexpr std::size_t kButtons{4};
   constexpr std::size_t kSeed{42}; // Seed for random number generator
   constexpr std::size_t kTotalGames{9}; // 9 for now, change this number if more games added to resources.
 

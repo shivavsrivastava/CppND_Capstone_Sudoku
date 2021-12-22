@@ -89,7 +89,9 @@ void Cell::handleKeyboardEvent(const SDL_Event* event)
 	else if (event->type == SDL_TEXTINPUT)
 	{
 		// Check if number lies between 1 to 9, as those are valid sudoku numbers
-		std::cout << "Cell::HandleKeyboardEvent -- text is" << event->text.text << "\n";
+		#ifdef DEBUG1
+		std::cout << "Cell::HandleKeyboardEvent -- text is " << event->text.text << "\n";
+		#endif
 		_number = atoi(event->text.text);
 		this->setNumber(_number);
 	}

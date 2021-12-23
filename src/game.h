@@ -1,3 +1,15 @@
+/* Author      : Shiva Srivastava
+ * Description : Game Class.
+ *               This class in the main instantiates the required game loop components:
+ *                  - input  (Controller)
+ *                  - update (Updater)
+ *                  - render (Renderer)
+ *               Sets Controller::handleInput and Updater::run functions in separate threads.
+ *               Overall responsible for threads execution.
+ * 
+ * Credits     : Thanks to the starter code provided by Udacity
+ * (https://github.com/udacity/CppND-Capstone-Snake-Game)
+ */
 #ifndef GAME_H
 #define GAME_H
 
@@ -22,15 +34,15 @@ class Updater;
 
 class Game {
  public:
-  Game(std::size_t gridW, std::size_t gridH);
+  Game(){};
   void play(Controller& controller, 
             Renderer& renderer,
             Updater& updater,
             std::size_t targetFrameDuration);
 
  private:
-  int    _gridW;
-  int    _gridH;
+  int                      _gridW;
+  int                      _gridH;
   std::vector<std::thread> _threads;
 
 };

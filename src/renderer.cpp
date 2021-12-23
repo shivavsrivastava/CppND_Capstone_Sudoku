@@ -1,6 +1,6 @@
-#include "renderer.h"
 #include <iostream>
 #include <string>
+#include "renderer.h"
 
 Renderer::Renderer(const std::size_t screenWidth,
                    const std::size_t screenHeight,
@@ -50,9 +50,7 @@ Renderer::Renderer(const std::size_t screenWidth,
 	if(_ttfFont == nullptr) {
 		std::cerr << "TTF font could not be loaded.\n";
 		std::cerr << "TTF_Error: " << TTF_GetError() << "\n";
-	} 
-
-
+	}
 }
 
 Renderer::~Renderer() {
@@ -87,14 +85,11 @@ void Renderer::initRender() {
 
 	// Enable text input
 	SDL_StartTextInput();
-
-
 }
 
 
 void Renderer::render() {
 	// Clear screen prepareScene
-	// Pixel color white (cream)
 	SDL_SetRenderDrawColor(_sdlRenderer, 200, 200, 200, SDL_ALPHA_OPAQUE);
 
 	// Clear screen
@@ -137,24 +132,22 @@ void Renderer::loadTexture(SDL_Texture*& texture, std::string text, SDL_Color& f
 }
 
 void Renderer::preloadTextures() {
-	// Choose color of text
-	SDL_Color textColor = { 200, 200, 200, SDL_ALPHA_OPAQUE }; // white
-
+    int cIndex = 0;
 	// Load texture for empty space
-	loadTexture(_textureCache[0], " ", textColor);
-
+	loadTexture(_textureCache[cIndex++], " ", _whiteColor);
 	// Load textures for numbers from 1 to 9
 	for (int num = 1; num < 10; num++)
 	{
 		std::string temp = std::to_string(num);
-		loadTexture(_textureCache[num], temp.c_str(), textColor);
+		loadTexture(_textureCache[num], temp.c_str(), _whiteColor);
+		cIndex++;
 	}
 
 	// Load texture for "Check", "Solve", and "New" buttons
-	loadTexture(_textureCache[10], "Level: Beginner", textColor);
-	loadTexture(_textureCache[11], "Check", textColor);
-    loadTexture(_textureCache[12], "Solution", textColor);
-	loadTexture(_textureCache[13], "New", textColor);
+	loadTexture(_textureCache[cIndex++], "Level: Beginner", _whiteColor);
+	loadTexture(_textureCache[cIndex++], "Check", _whiteColor);
+    loadTexture(_textureCache[cIndex++], "Solution", _whiteColor);
+	loadTexture(_textureCache[cIndex],   "New", _whiteColor);
 
 }
 
@@ -171,7 +164,7 @@ void Renderer::freeTextures()
 	}
 }
 
-/* This is how I want the Sudoku to be laid out
+/* Sudoku Frame Layout
    ===========================================================
    || Level:Beginner                                        ||
    ===========================================================
@@ -204,7 +197,9 @@ void Renderer::createInterfaceLayout()
 	const int thickBorder   = thinBorder + 6;
   	const int thickerBorder = thinBorder + 6;
   	const int finalRows     = _nRows + 2;
-	  int     nOtherButtons = 3;
+	int     nOtherButtons   = _buttons.size() - 1;
+	int bIndex              = 0; // First button 
+	int cIndex              = 10 + bIndex;
 
 	/*-----------Display Stopwatch and Level of Game----------------------------*/
 	// Game Level and Stopwatch are unclickable buttons
@@ -219,8 +214,8 @@ void Renderer::createInterfaceLayout()
 	buttonStartCol += thickerBorder;
   	// Set the level button
   	SDL_Rect buttonRect1 = { buttonStartCol, buttonStartRow, buttonWidth, buttonHeight };
-	_buttons.at(0)->setButtonRect(buttonRect1);
-	_buttons.at(0)->setTexture(_textureCache[10]);
+	_buttons.at(bIndex)->setButtonRect(buttonRect1);
+	_buttons.at(bIndex++)->setTexture(_textureCache[cIndex++]);
 	
 
 	/*-------------Create buttons for each cell-------------------------------------*/
@@ -263,9 +258,9 @@ void Renderer::createInterfaceLayout()
 	}
 
 	/*-----------Create check, and new buttons--------------------------------*/
-	_buttons.at(1)->setTexture(_textureCache[11]);
-	_buttons.at(2)->setTexture(_textureCache[12]);
-	_buttons.at(3)->setTexture(_textureCache[13]);
+	_buttons.at(bIndex++)->setTexture(_textureCache[cIndex++]);
+	_buttons.at(bIndex++)->setTexture(_textureCache[cIndex++]);
+	_buttons.at(bIndex)->setTexture(_textureCache[cIndex++]);
 
 	// Redefine button width
 	// gridWidth = 4 * thickBorder + 9 * numberOfOtherButtons (rearrange this equation)
@@ -278,6 +273,7 @@ void Renderer::createInterfaceLayout()
 	int borderWidthTotal = 0;
 
 	// Set check, solve, and new buttons (last row)
+	bIndex = 1;
 	for (int button = 0; button < nOtherButtons; button++) // colBlock is every 3 columns of cells
 	{
 		// Add border width to total
@@ -287,18 +283,12 @@ void Renderer::createInterfaceLayout()
 
 		// Set button position and dimensions
 		SDL_Rect buttonRect = { buttonStartCol, buttonStartRow, buttonWidth, buttonHeight };
-		_buttons.at(1+button)->setButtonRect(buttonRect);
+		_buttons.at(bIndex+button)->setButtonRect(buttonRect);
 	}
 
 }
 
 void Renderer::renderFrame() {
-	// Choose color of text
-	SDL_Color textColor = { 200, 200, 200, SDL_ALPHA_OPAQUE }; // white
-	SDL_Color solColor = { 91, 191, 116, SDL_ALPHA_OPAQUE }; // green
-	SDL_Color redColor = { 200, 73, 46, SDL_ALPHA_OPAQUE }; // red
-
-
 	// When solution button is clicked, then show completed Sudoku, with solution in green
 	if(_boardPtr->getSolButton()) { // when solution button clicked
 		for (int index = 0; index < _grid.size(); index++) {
@@ -307,9 +297,9 @@ void Renderer::renderFrame() {
 			int sol = _grid[index]->getSolution();
 			std::string solString = std::to_string(sol);
 			if(_grid[index]->isEditable()) {
-				loadTexture(_textureCache[sol], solString.c_str(), solColor);
+				loadTexture(_textureCache[sol], solString.c_str(), _greenColor);
 			} else {
-				loadTexture(_textureCache[sol], solString.c_str(), textColor);
+				loadTexture(_textureCache[sol], solString.c_str(), _whiteColor);
 			}
 			_grid[index]->setTexture(_textureCache[sol]);
 			// Re-center since diffrerent numbers have different sized textures
@@ -330,13 +320,13 @@ void Renderer::renderFrame() {
 			// check for wrong entry
 			if(_grid[index]->isEditable()) {
 				if(_grid[index]->isCorrect())
-					loadTexture(_textureCache[num], numString.c_str(), solColor);
+					loadTexture(_textureCache[num], numString.c_str(), _greenColor);
 				else {
 					if(num!=0)
-						loadTexture(_textureCache[num], numString.c_str(), redColor);
+						loadTexture(_textureCache[num], numString.c_str(), _redColor);
 				}
 			} else {
-				loadTexture(_textureCache[num], numString.c_str(), textColor);
+				loadTexture(_textureCache[num], numString.c_str(), _whiteColor);
 			}
 			_grid[index]->setTexture(_textureCache[num]);
 			// Re-center since diffrerent numbers have different sized textures
@@ -364,7 +354,7 @@ void Renderer::renderFrame() {
 			std::string numString = " ";
 			if(num!=0)
 				numString = std::to_string(num);
-			loadTexture(_textureCache[num], numString.c_str(), textColor);
+			loadTexture(_textureCache[num], numString.c_str(), _whiteColor);
 			_grid[index]->setTexture(_textureCache[num]);
 			// Re-center since diffrerent numbers have different sized textures
 			_grid[index]->centerTextureRect();
@@ -382,16 +372,16 @@ void Renderer::renderFrame() {
 		// Render Level Button
 		if(index==0) {
 			if(_boardPtr->getSudokuComplete()) {
-				loadTexture(_textureCache[cIndex], "Congratulations!", solColor);
+				loadTexture(_textureCache[cIndex], "Congratulations!", _greenColor);
 				_buttons[index]->setTexture(_textureCache[cIndex]);
 			}  else {
 				int level = _boardPtr->getGameLevel();
 				if(level <= 3)
-					loadTexture(_textureCache[cIndex], "Level: Beginner", textColor);
+					loadTexture(_textureCache[cIndex], "Level: Beginner", _whiteColor);
 				else if(level > 3 && level <=6)
-					loadTexture(_textureCache[cIndex], "Level: Advanced", textColor);
+					loadTexture(_textureCache[cIndex], "Level: Advanced", _whiteColor);
 				else
-					loadTexture(_textureCache[cIndex], "Level: Expert", textColor);
+					loadTexture(_textureCache[cIndex], "Level: Expert", _whiteColor);
 				_buttons[index]->setTexture(_textureCache[cIndex]);
 			}
 		}

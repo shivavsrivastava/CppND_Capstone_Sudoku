@@ -58,16 +58,16 @@ void Cell::setEditable(const bool editable)
 	if (_editable)
 	{
 		_mouseOutC = { 102, 103, 171, SDL_ALPHA_OPAQUE }; // pantone very peri color of 2022
-		_mouseOverC = { 95, 89, 191, SDL_ALPHA_OPAQUE }; // blue
+		_mouseOverC = { 95, 89, 191, SDL_ALPHA_OPAQUE };  // blue
 		_mouseOverC = { 91, 191, 116, SDL_ALPHA_OPAQUE }; // green
-		_mouseUpC = { 95, 89, 191, SDL_ALPHA_OPAQUE }; // blue
+		_mouseUpC = { 95, 89, 191, SDL_ALPHA_OPAQUE };    // blue
 	}
 	else
 	{
-		_mouseOutC = { 82, 83, 141, SDL_ALPHA_OPAQUE }; // dark peri
-		_mouseOverC = { 82, 83, 141, SDL_ALPHA_OPAQUE }; // dark peri
-		_mouseOverC = { 82, 83, 141, SDL_ALPHA_OPAQUE }; // dark peri
-		_mouseUpC = { 82, 83, 141, SDL_ALPHA_OPAQUE }; // dark peri
+		_mouseOutC = { 82, 83, 141, SDL_ALPHA_OPAQUE };   // dark peri
+		_mouseOverC = { 82, 83, 141, SDL_ALPHA_OPAQUE };  // dark peri
+		_mouseOverC = { 82, 83, 141, SDL_ALPHA_OPAQUE };  // dark peri
+		_mouseUpC = { 82, 83, 141, SDL_ALPHA_OPAQUE };    // dark peri
 	}
 }
 bool Cell::isEditable()
@@ -88,13 +88,14 @@ void Cell::handleKeyboardEvent(const SDL_Event* event)
 	// Handle text input
 	else if (event->type == SDL_TEXTINPUT)
 	{
+		std::lock_guard<std::mutex> lck(_bmtx);
 		// Check if number lies between 1 to 9, as those are valid sudoku numbers
 		#ifdef DEBUG1
 		std::cout << "Cell::HandleKeyboardEvent -- text is " << event->text.text << "\n";
 		#endif
 		_number = atoi(event->text.text);
-		this->setNumber(_number);
 	}
+	this->setNumber(_number);
 }
 
 

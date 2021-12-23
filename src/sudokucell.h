@@ -1,4 +1,9 @@
-
+/* Author      : Shiva Srivastava
+ * Description : Cell Class is extended from Button class. 
+ *               Contains functions that help in editing the sudoku cell.
+ *               handleKeyboardEvent handles the numbers written.
+ * 
+ */
 #ifndef CELL_H
 #define CELL_H
 #include <SDL.h>
@@ -17,11 +22,11 @@ public:
 
 	// Set and get number
 	void setNumber(const int number);
-	int getNumber();
+	int  getNumber();
 
 	// Set solution
 	void setSolution(const int solution);
-	int getSolution();
+	int  getSolution();
 
 	// Set and get editability (setting editability changes color mapping for button)
 	void setEditable(const bool editable);
@@ -33,12 +38,10 @@ public:
 	// Compare number with solution
 	bool isCorrect();
 private:
-	// Define editiability (can type number in cell)
-	bool _editable;
-
-	// Define number currently displayed and the actual solution
-	int _number;
-	int _solution;
+	
+	bool _editable; // Define editiability (can type number in cell)
+	int  _number;   // number in the cell currenlty displayed
+	int  _solution; // solution 
 
 };
 

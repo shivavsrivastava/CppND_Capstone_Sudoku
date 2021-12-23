@@ -1,3 +1,8 @@
+/* Author      : Shiva Srivastava
+ * Description : Controller Class.
+ *               This class handles the keyboard inputs and mouse events.
+ * 
+ */
 #ifndef CONTROLLER_H
 #define CONTROLLER_H
 
@@ -26,8 +31,8 @@ public:
 
 private:
 
-  bool _stop;
-  std::mutex _stop_mtx;
+  bool                                       _stop;
+  std::mutex                                 _stop_mtx;
   std::vector<std::shared_ptr<Cell>>         _grid;
   std::vector<std::shared_ptr<Button>>       _buttons;
   std::shared_ptr<SudokuScoreBoard>          _boardPtr;

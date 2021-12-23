@@ -1,3 +1,10 @@
+/* Author      : Shiva Srivastava
+ * Description : Button Class is the base class. 
+ *               Contains functions to set the texture and colors of the button
+ *               in various states and render the button.
+ *               Uses mutex and lock guard to protect from concurrent access.
+ * 
+ */
 #ifndef BUTTON_H
 #define BUTTON_H
 #include <SDL.h>
@@ -12,10 +19,7 @@ enum class ButtonState
 	BUTTON_MOUSE_UP = 3,
 };
 
-class Button
-{
-
-
+class Button {
 public:
 	// Constructor
 	Button();
@@ -72,14 +76,13 @@ private:
 
 protected:
 	// Define button colors
-	SDL_Color _mouseOutC;
-	SDL_Color _mouseOverC;
-	SDL_Color _mouseDownC;
-	SDL_Color _mouseUpC;
-	int       _id;
+	SDL_Color         _mouseOutC;
+	SDL_Color         _mouseOverC;
+	SDL_Color         _mouseDownC;
+	SDL_Color         _mouseUpC;
+	int               _id;
 	static std::mutex _mtx; // mutex for protecting cout
-	// mutex for button functions access
-	std::mutex  _bmtx;
+	std::mutex        _bmtx; // mutex for button functions access
 };
 
 #endif

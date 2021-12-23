@@ -1,5 +1,4 @@
 #include <iostream>
-#include <SDL.h>
 #include <chrono>
 #include "controller.h"
 
@@ -27,7 +26,7 @@ void Controller::handleInput() {
         std::lock_guard<std::mutex> lck(_stop_mtx);
         _stop = true;
       }
-      else {
+      else { // Handle grid of cells
         for (auto it: _grid) {
           if(it->isEditable()) {
             it->setSelected(false);
@@ -40,7 +39,8 @@ void Controller::handleInput() {
             }
           }
         }
-        // first button is level
+        // Handle buttons
+        // first button is level and not editable
         // next 3 are check, solution, new
         for (auto it: _buttons) {
           if(it->getMouseEvent(&e) == ButtonState::BUTTON_MOUSE_DOWN) {
@@ -87,8 +87,8 @@ void Controller::handleInput() {
         }
         _grid.at(_currCellNumber)->handleKeyboardEvent(&e);
         _grid.at(_currCellNumber)->setSelected(false);
-        _boardPtr->setValidCell(true);
-        _boardPtr->setCurrentCellNum(_currCellNumber);
+        // _boardPtr->setValidCell(true);
+        // _boardPtr->setCurrentCellNum(_currCellNumber);
       }
 
       // Free CPU

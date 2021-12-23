@@ -1,3 +1,8 @@
+/* Author      : Shiva Srivastava
+ * Description : Sudoku Solver Class.
+ *               The solver uses backtracking algorithm.
+ * 
+ */
 #ifndef SOLVER_H
 #define SOLVER_H
 #include <iostream>
@@ -33,10 +38,10 @@ private:
   int getBlockIdx(int r, int c);
 
 
-  int _N1;
-  int _N2;
+  int                             _N1;
+  int                             _N2;
   
-  board_t _board;
+  board_t                         _board;
 
   std::vector<std::vector<bool>> _rowFree;
   std::vector<std::vector<bool>> _colFree;

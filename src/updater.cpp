@@ -24,36 +24,33 @@ void Updater::run() {
     // seed the random generator
     srand(_seed);
     while(!readyToStop()) {
-      if(!init) {
-        // Run the initial load board logic
-        loadBoard(newGame); 
-        solve();
-        loadSolvedBoardAndGrid();
-        _boardPtr->setGameLevel(newGame);
-        _boardPtr->setGenNewButton(false);
-        _lastGameSolved = newGame;
-        init = true; // Set init to true, so this logic is not visited again
-      }
-      else { // init = true
-        if(_boardPtr->getGenNewButton()) {
-          // logic to generate new sudoku and set the level button too
-          int newGame = rand()%_totalGames + 1;
-          while(newGame == _lastGameSolved) 
-            newGame = rand()%_totalGames + 1;
-          #ifdef DEBUG1
-          std::cout << "New game will be loaded, new game number= " << newGame << "\n";
-          #endif
-          loadBoard(newGame);
-          solve();
-          loadSolvedBoardAndGrid();
-          _boardPtr->setGameLevel(newGame);
-          _boardPtr->setGenNewButton(false);
-          _lastGameSolved = newGame;
+        if(!init) {
+            // Run the initial load board logic
+            loadBoard(newGame); 
+            solve();
+            loadSolvedBoardAndGrid();
+            _boardPtr->setGameLevel(newGame);
+            _boardPtr->setGenNewButton(false);
+            _lastGameSolved = newGame;
+            init = true; // Set init to true, so this logic is not visited again
         }
-        // if(_boardPtr->getValidCell()) {
-        //   int cellIndex = _boardPtr->getCurrentCellNum();
-        // }
-      }
+        else { // init = true
+            if(_boardPtr->getGenNewButton()) {
+                // logic to generate new sudoku and set the level button too
+                int newGame = rand()%_totalGames + 1;
+                while(newGame == _lastGameSolved) 
+                  newGame = rand()%_totalGames + 1;
+                #ifdef DEBUG1
+                std::cout << "New game will be loaded, new game number= " << newGame << "\n";
+                #endif
+                loadBoard(newGame);
+                solve();
+                loadSolvedBoardAndGrid();
+                _boardPtr->setGameLevel(newGame);
+                _boardPtr->setGenNewButton(false);
+                _lastGameSolved = newGame;
+            }
+        }
 
       // Free CPU
       std::this_thread::sleep_for(std::chrono::milliseconds(1));
@@ -95,8 +92,8 @@ bool Updater::loadBoard(int fileNumber) {
             _board[r][c] = val;
             // if the board is not filled and there is no input
             if ( !fp ) {
-              std::cerr << "Error reading file for element (" << r << ", " << c << ")\n"; 
-              return false; 
+                std::cerr << "Error reading file for element (" << r << ", " << c << ")\n"; 
+                return false; 
             }
         }
     }
@@ -113,13 +110,13 @@ void Updater::loadSolvedBoardAndGrid() {
     int index;
     for(int r = 0; r < N1; r++) {
         for(int c = 0; c < N1; c++){
-          index = r*N1 + c;
-          _grid.at(index)->setNumber(_board[r][c]);
-          if(_board[r][c]==0)
-              _grid.at(index)->setEditable(true);
-          else
-              _grid.at(index)->setEditable(false);
-          _grid.at(index)->setSolution(_solution[r][c]);
+            index = r*N1 + c;
+            _grid.at(index)->setNumber(_board[r][c]);
+            if(_board[r][c]==0)
+                _grid.at(index)->setEditable(true);
+            else
+                _grid.at(index)->setEditable(false);
+            _grid.at(index)->setSolution(_solution[r][c]);
           
         }
     }

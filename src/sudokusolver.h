@@ -42,6 +42,7 @@ private:
   int                             _N2;
   
   board_t                         _board;
+  board_t                         _sol;
 
   std::vector<std::vector<bool>> _rowFree;
   std::vector<std::vector<bool>> _colFree;

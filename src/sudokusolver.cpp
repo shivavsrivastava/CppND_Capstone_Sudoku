@@ -9,6 +9,7 @@ bool SudokuSolver::setBoard(board_t& board) {
     _board = board;
     
     // Reset row, col, block and diag trackers
+    _sol.resize(_N2,std::vector<int>(_N2,0));
     _rowFree.resize(_N2,std::vector<bool>(_N2,true));
     _colFree.resize(_N2,std::vector<bool>(_N2,true));
     _blockFree.resize(_N2,std::vector<bool>(_N2,true));
@@ -17,7 +18,7 @@ bool SudokuSolver::setBoard(board_t& board) {
     for (int r = 0; r < _N2; r++) {
         for (int c = 0; c < _N2; c++) {
           int val = board[r][c];
-          _board[r][c] = val;
+          _sol[r][c] = val;
           if (val != 0) markCell(r,c,val,false);
         }
     }
@@ -25,7 +26,7 @@ bool SudokuSolver::setBoard(board_t& board) {
 }
 
 board_t SudokuSolver::getBoard() {
-    return _board;
+    return _sol;
 }
 
 bool SudokuSolver::solve() {
@@ -33,7 +34,7 @@ bool SudokuSolver::solve() {
     int r,c;
     for (int i=0; i< _N2*_N2; i++) {
         deserialize(i,r,c);
-        if (_board[r][c] == 0) {
+        if (_sol[r][c] == 0) {
           searchPath.push_back(i);
         }
     }
@@ -48,7 +49,7 @@ bool SudokuSolver::solve() {
         std::cout << "Checking cell index " << *searchPathIt << " (" << r << ", " << c << ")\n";
         #endif
 
-        int curVal = _board[r][c];
+        int curVal = _sol[r][c];
         int nextVal = getFirstAvailableValFrom(r,c,curVal+1);
 
         #ifdef DEBUG1
@@ -61,7 +62,7 @@ bool SudokuSolver::solve() {
             }
 
             // Mark cell as empty
-            _board[r][c] = 0;
+            _sol[r][c] = 0;
 
             // Move backwards to previous cell on search path
             searchPathIt--;
@@ -70,7 +71,7 @@ bool SudokuSolver::solve() {
             deserialize(*searchPathIt,r,c);
 
             // Refree previous val
-            int val = _board[r][c];
+            int val = _sol[r][c];
             markCell(r,c,val,true); 
 
             #ifdef DEBUG1
@@ -85,7 +86,7 @@ bool SudokuSolver::solve() {
             #endif
 
             // Mark board with trial val
-            _board[r][c] = nextVal;
+            _sol[r][c] = nextVal;
 
             // Mark free arrays with this cell candidate
             markCell(r,c,nextVal,false);
@@ -108,6 +109,7 @@ void SudokuSolver::markCell(int r, int c, int val, bool free) {
     _colFree[c][val-1] = free;
     _blockFree[getBlockIdx(r,c)][val-1] = free;
 }
+
 int SudokuSolver::getBlockIdx(int r, int c) {
     int blockR = r / _N1 ;
     int blockC = c / _N1 ;

@@ -3,40 +3,43 @@
 Button::Button()
 	: _currentState(ButtonState::BUTTON_MOUSE_OUT),
 	  _texture(nullptr),
-	  _buttonRect({ 0, 0, 0, 0 }),
+	  _buttonRect({0, 0, 0, 0}),
 	  _textureRect({0, 0, 0, 0}),
-	  _mouseOutC({ 81, 78, 78, SDL_ALPHA_OPAQUE }), // gray
-	  _mouseOverC({ 95, 89, 191, SDL_ALPHA_OPAQUE }),//blue
-	  _mouseDownC({ 91, 191, 116, SDL_ALPHA_OPAQUE }), // green
-	  _mouseUpC({ 95, 89, 191, SDL_ALPHA_OPAQUE }), // blue
-	  _selected(false) {}
+	  _mouseOutC({81, 78, 78, SDL_ALPHA_OPAQUE}),	 // gray
+	  _mouseOverC({95, 89, 191, SDL_ALPHA_OPAQUE}),	 //blue
+	  _mouseDownC({91, 191, 116, SDL_ALPHA_OPAQUE}), // green
+	  _mouseUpC({95, 89, 191, SDL_ALPHA_OPAQUE}),	 // blue
+	  _selected(false)
+{
+}
 
 Button::Button(int id)
 	: _currentState(ButtonState::BUTTON_MOUSE_OUT),
 	  _texture(nullptr),
-	  _buttonRect({ 0, 0, 0, 0 }),
+	  _buttonRect({0, 0, 0, 0}),
 	  _textureRect({0, 0, 0, 0}),
-	  _mouseOutC({ 81, 78, 78, SDL_ALPHA_OPAQUE }), // gray
-	  _mouseOverC({ 95, 89, 191, SDL_ALPHA_OPAQUE }),//blue
-	  _mouseDownC({ 91, 191, 116, SDL_ALPHA_OPAQUE }), // green
-	  _mouseUpC({ 95, 89, 191, SDL_ALPHA_OPAQUE }), // blue
+	  _mouseOutC({81, 78, 78, SDL_ALPHA_OPAQUE}),	 // gray
+	  _mouseOverC({95, 89, 191, SDL_ALPHA_OPAQUE}),	 //blue
+	  _mouseDownC({91, 191, 116, SDL_ALPHA_OPAQUE}), // green
+	  _mouseUpC({95, 89, 191, SDL_ALPHA_OPAQUE}),	 // blue
 	  _selected(false),
-	  _id(id) {}
+	  _id(id)
+{
+}
 
-
-void Button::setTexture(SDL_Texture* texture)
+void Button::setTexture(SDL_Texture *texture)
 {
 	std::lock_guard<std::mutex> lck(_bmtx);
 	_texture = texture;
 }
 
-void Button::setButtonRect(const SDL_Rect& rect)
+void Button::setButtonRect(const SDL_Rect &rect)
 {
 	std::lock_guard<std::mutex> lck(_bmtx);
 	_buttonRect = rect;
 }
 
-void Button::setTextureRect(const SDL_Rect& rect)
+void Button::setTextureRect(const SDL_Rect &rect)
 {
 	std::lock_guard<std::mutex> lck(_bmtx);
 	_textureRect = rect;
@@ -52,7 +55,7 @@ void Button::centerTextureRect()
 	const int textureStartRow = _buttonRect.y + 0.5 * (_buttonRect.h - textureHeight);
 	const int textureStartCol = _buttonRect.x + 0.5 * (_buttonRect.w - textureWidth);
 
-	_textureRect = { textureStartCol, textureStartRow, textureWidth, textureHeight };
+	_textureRect = {textureStartCol, textureStartRow, textureWidth, textureHeight};
 }
 
 void Button::setSelected(const bool selected)
@@ -91,7 +94,7 @@ bool Button::isMouseInside(const int x, const int y)
 	return inside;
 }
 
-ButtonState Button::getMouseEvent(const SDL_Event* event)
+ButtonState Button::getMouseEvent(const SDL_Event *event)
 {
 	std::lock_guard<std::mutex> lck(_bmtx);
 	//If mouse event happened
@@ -123,20 +126,19 @@ ButtonState Button::getMouseEvent(const SDL_Event* event)
 			case SDL_MOUSEBUTTONUP:
 				_currentState = ButtonState::BUTTON_MOUSE_UP;
 				break;
-
 			}
 		}
 	}
 	return _currentState;
 }
 
-void Button::setMouseDownColor(const SDL_Color& color)
+void Button::setMouseDownColor(const SDL_Color &color)
 {
 	std::lock_guard<std::mutex> lck(_bmtx);
 	_mouseDownC = color;
 }
 
-void Button::renderButton(SDL_Renderer* renderer)
+void Button::renderButton(SDL_Renderer *renderer)
 {
 	std::lock_guard<std::mutex> lck(_bmtx);
 	// If current button is selected
@@ -161,17 +163,15 @@ void Button::renderButton(SDL_Renderer* renderer)
 		case ButtonState::BUTTON_MOUSE_UP:
 			SDL_SetRenderDrawColor(renderer, _mouseUpC.r, _mouseUpC.g, _mouseUpC.b, _mouseUpC.a);
 			break;
-
 		}
 	}
 
 	SDL_RenderFillRect(renderer, &_buttonRect);
 }
 
-void Button::renderTexture(SDL_Renderer* renderer)
+void Button::renderTexture(SDL_Renderer *renderer)
 {
 	std::lock_guard<std::mutex> lck(_bmtx);
 	// Set rendering space
 	SDL_RenderCopy(renderer, _texture, nullptr, &_textureRect);
 }
-

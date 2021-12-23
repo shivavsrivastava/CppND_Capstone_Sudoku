@@ -59,9 +59,9 @@ class Renderer {
     TTF_Font*                            _ttfFont;
     SDL_Texture*                         _textureCache[14]; 
     SDL_Window*                          _sdlWindow;
-    SDL_Color                      _whiteColor={ 200, 200, 200, SDL_ALPHA_OPAQUE };
-	  SDL_Color                      _greenColor={ 91, 191, 116, SDL_ALPHA_OPAQUE };
-	  SDL_Color                      _redColor={ 200, 73, 46, SDL_ALPHA_OPAQUE };
+    SDL_Color                            _whiteColor={ 200, 200, 200, SDL_ALPHA_OPAQUE };
+    SDL_Color                            _greenColor={ 91, 191, 116, SDL_ALPHA_OPAQUE };
+	SDL_Color                            _redColor={ 200, 73, 46, SDL_ALPHA_OPAQUE };
     
     std::vector<std::shared_ptr<Cell>>   _grid;
     std::vector<std::shared_ptr<Button>> _buttons;

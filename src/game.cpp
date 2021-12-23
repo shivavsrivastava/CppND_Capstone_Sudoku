@@ -30,31 +30,31 @@ void Game::play(Controller& controller,
     
     // main game loop
     while (!controller.readyToStop()) {
-      frameStart = SDL_GetTicks();
+        frameStart = SDL_GetTicks();
 
-      // Call the render function from this loop
-      renderer.render();
+        // Call the render function from this loop
+        renderer.render();
 
-      frameEnd = SDL_GetTicks();
+        frameEnd = SDL_GetTicks();
 
-      // Keep track of how long each loop through the render cycle takes
-      frameCount++;
-      frameDuration = frameEnd - frameStart;
+        // Keep track of how long each loop through the render cycle takes
+        frameCount++;
+        frameDuration = frameEnd - frameStart;
 
 
-      // After every second, update the window title.
-      if (frameEnd - titleTimestamp >= 1000) {
-          renderer.updateWindowTitle(frameCount);
-          frameCount = 0;
-          titleTimestamp = frameEnd;
-      }
+        // After every second, update the window title.
+        if (frameEnd - titleTimestamp >= 1000) {
+            renderer.updateWindowTitle(frameCount);
+            frameCount = 0;
+            titleTimestamp = frameEnd;
+        }
 
-      // If the time for this frame is too small (i.e. frameDuration is
-      // smaller than the target ms_per_frame), delay the loop to
-      // achieve the correct frame rate.
-      if (frameDuration < targetFrameDuration) {
-          SDL_Delay(targetFrameDuration - frameDuration);
-      }
+        // If the time for this frame is too small (i.e. frameDuration is
+        // smaller than the target ms_per_frame), delay the loop to
+        // achieve the correct frame rate.
+        if (frameDuration < targetFrameDuration) {
+            SDL_Delay(targetFrameDuration - frameDuration);
+        }
     }
 
     // Stop the threads
@@ -63,5 +63,5 @@ void Game::play(Controller& controller,
 
     // Join all threads here
     for(auto &t : _threads)
-      t.join();
+        t.join();
 }

@@ -20,12 +20,13 @@ Updater::~Updater() {
 
 void Updater::run() {
     bool init = false;
-    int newGame = 1; // start with file number 1
+    int newGame = 3; // start with this game
     // seed the random generator
     srand(_seed);
     while(!readyToStop()) {
         if(!init) {
             // Run the initial load board logic
+            _boardPtr->setUpdaterDone(false);
             loadBoard(newGame); 
             solve();
             loadSolvedBoardAndGrid();
@@ -33,9 +34,11 @@ void Updater::run() {
             _boardPtr->setGenNewButton(false);
             _lastGameSolved = newGame;
             init = true; // Set init to true, so this logic is not visited again
+            _boardPtr->setUpdaterDone(true);
         }
         else { // init = true
             if(_boardPtr->getGenNewButton()) {
+                _boardPtr->setUpdaterDone(false);
                 // logic to generate new sudoku and set the level button too
                 int newGame = rand()%_totalGames + 1;
                 while(newGame == _lastGameSolved) 
@@ -49,11 +52,12 @@ void Updater::run() {
                 _boardPtr->setGameLevel(newGame);
                 _boardPtr->setGenNewButton(false);
                 _lastGameSolved = newGame;
+                _boardPtr->setUpdaterDone(true);
             }
         }
 
       // Free CPU
-      std::this_thread::sleep_for(std::chrono::milliseconds(1));
+      std::this_thread::sleep_for(std::chrono::milliseconds(2));
     }
     std::cout << "Exit thread: Updater::Run\n";
 }

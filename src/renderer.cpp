@@ -96,13 +96,16 @@ void Renderer::render() {
 	SDL_RenderClear(_sdlRenderer);
 
     // Render the Sudoku Frame
+    while(_boardPtr->getUpdaterDone()==false) {
+        SDL_Delay(10);
+    }
 	renderFrame();
 
 	// Update screen 
 	SDL_RenderPresent(_sdlRenderer);
 
 	// slow down the program a bit
-	SDL_Delay(10);
+	SDL_Delay(1);
 }
 
 void Renderer::updateWindowTitle(int fps) {

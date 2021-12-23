@@ -57,6 +57,13 @@ public:
         std::lock_guard<std::mutex> lck(_mtx);
         return _sudokuComplete;}
 
+    void setUpdaterDone(bool done) {
+        std::lock_guard<std::mutex> lck(_mtx);
+        _updaterDone = done;}
+    
+    bool getUpdaterDone() {
+        std::lock_guard<std::mutex> lck(_mtx);
+        return _updaterDone;}
 
 private:
     bool _chkButton;
@@ -64,6 +71,7 @@ private:
     bool _solButton;
     int  _gameLevel;
     bool _sudokuComplete;
+    bool _updaterDone;
     std::mutex _mtx; 
 };
 

@@ -47,9 +47,9 @@ This project solves the sudoku using fast Backtracking (depth-first search) algo
  
 
 ## Acknowledgement
-1. This project used the starter game repo provided for the capstone project [Udacity Capstone Snake Game Example] (https://github.com/udacity/CppND-Capstone-Snake-Game)
-2. Thanks to Shing-Yan Loo for his [Pong game repo] (https://github.com/yan99033/CppND-Capstone-Pong)
-3. Thanks to Ryan Tabar for his [Sudoku game using SDL2 repo] (https://github.com/SirFourier/Sudoku-game-using-SDL2/blob/master/README.md)
+1. This project used the starter game repo provided for the capstone project [Udacity Capstone Snake Game Example](https://github.com/udacity/CppND-Capstone-Snake-Game)
+2. Thanks to Shing-Yan Loo for his [Pong game repo](https://github.com/yan99033/CppND-Capstone-Pong)
+3. Thanks to Ryan Tabar for his [Sudoku game using SDL2 repo](https://github.com/SirFourier/Sudoku-game-using-SDL2)
 
 
 

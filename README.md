@@ -1,6 +1,6 @@
 # CPPND: Capstone Sudoku Game
 
-This is a starter repo for the Capstone project in the [Udacity C++ Nanodegree Program](https://www.udacity.com/course/c-plus-plus-nanodegree--nd213). The code for this repo was inspired by [this](https://codereview.stackexchange.com/questions/212296/snake-game-in-c-with-sdl) excellent StackOverflow post and set of responses.
+Sudoku is a logic-based number placement puzzle. The word Sudoku is short for Su-ji wa dokushin ni kagiru which means "the numbers must be single". A 9 by 9 grid partially filled with digits is a starting point. The objective is to fill the grid with the constraint that every row, column, and box (3 by 3 subgrid) must contain all of the digits from 1 to 9.
 
 <img src="Sudoku_Game.gif"/>
 

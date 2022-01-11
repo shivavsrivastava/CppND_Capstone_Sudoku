@@ -1,4 +1,4 @@
-# CPPND: Capstone Sudoku Game
+# UDACITY CPP Nano Degree Capstone: Sudoku Game
 
 Sudoku is a logic-based number placement puzzle. The word Sudoku is short for _Su-ji wa dokushin ni kagiru_ which means "the numbers must be single". A 9 by 9 grid partially filled with digits is a starting point. The objective is to fill the grid with the constraint that every row, column, and box (3 by 3 subgrid) must contain all of the digits from 1 to 9. The puzzle has a single solution.
 

@@ -30,7 +30,7 @@ Working from ground up on the Udacity Capstone project was a huge learning curve
 
 Udacity provided with a github repo of snake game to be used as starter repo. It provides cmake for SDL2 and I had to add cmake file for SDL TTF used for fonts.
 
-  ## Game Programming
+  ### Game Programming
 
   Game Programming is a vast subject and I had not delved into that before, hence my reluctance to pick game development. It was a fun ride and I learned a lot!
 
@@ -39,7 +39,7 @@ Udacity provided with a github repo of snake game to be used as starter repo. It
   > The good part is that core tenets of game programming are nearly universal and after coding up this project I feel the game loop is transferable to computer vision projects.
   > 
 
- ## The Game Loop Overview
+ ### The Game Loop Overview
 
  The game loop is a while loop that runs continuously in your code and has three steps:
 
